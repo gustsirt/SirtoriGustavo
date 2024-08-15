@@ -1,29 +1,28 @@
-# Entornos virtuales
-venv/
-env/
-.venv/
-.env/
+.env
+.env.development
+mock/
 
-# Archivos de configuración
-*.env
-
-# Archivos de caché de Python
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Archivos de base de datos
-*.sqlite3
-*.db
-
-# Archivos de logs
+# Logs
+logs
 *.log
-logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Archivos de configuración de IDEs
-.vscode/
-.idea/
+node_modules
+dist
+dist-ssr
+*.local
 
-# Archivos creados por el sistema operativo
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
-Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
