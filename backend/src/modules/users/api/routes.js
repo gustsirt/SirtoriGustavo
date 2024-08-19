@@ -10,13 +10,6 @@ const controller = new Controller()
 
 // http://localhost:8080/v1/users/
 
-// sesions
-router
-.post   ('/register',       celebrate(validSchema.register), controller.register)
-.post   ('/login',          celebrate(validSchema.login),    controller.login)
-.post   ('/userrecovery',   celebrate(validSchema.email),    controller.userRecovery)
-.put    ('/userrecovery',   handleAuth(users), celebrate(validSchema.updatePassword), controller.userRecoveryPassword)
-
 // user
 router
 .get    ('/current',        handleAuth(users),   controller.getUserSession)

@@ -27,6 +27,7 @@
     "nodemailer-express-handlebars": "^6.1.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "passport-linkedin-oauth2": "^2.0.0",
     "winston": "^3.14.2"
   }
 }

@@ -6,7 +6,7 @@ import __dirname from './libraries/utils/dirname.js';
 import { connectDb } from './config/connectMongo.js';
 import { addLogger, logger } from './middleware/logger.js';
 import handleResponses from './middleware/handleResponses.js';
-import initializePassport from './modules/users/config/passport.config.js';
+import initializePassport from './modules/auth/config/passport.config.js';
 import passport from 'passport';
 import appRouter from './config/routes.js'
 import handleErrors from './middleware/handleErrors.js';
