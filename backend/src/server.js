@@ -9,8 +9,7 @@ import handleResponses from './middleware/handleResponses.js';
 import initializePassport from './modules/users/config/passport.config.js';
 import passport from 'passport';
 import appRouter from './config/routes.js'
-import AppError from './config/AppError.js';
-import { handleEspecificErrors, handleGenericErrors, handleMulterErrors } from './middleware/handleErrors.js';
+import handleErrors from './middleware/handleErrors.js';
 
 // App initialization ------------------------------
 const app = express();
@@ -34,13 +33,11 @@ initializePassport()
 app.use(passport.initialize())
 
 // App Routes --------------------------------
-app.get('/', (req, res) => {res.send({prueba: "Hello backend"})});
+app.get('/', (req, res) => { res.send({prueba: "Hello backend"}) });
 app.use('/', appRouter);
-app.use(handleMulterErrors)
-app.use(handleEspecificErrors)
-app.use(handleGenericErrors)
+
+// Error Handling Middleware --------------------------------
+app.use(handleErrors)
 
 // App Launch --------------------------------
-app.listen(port, () => {
-  logger.info(`Server running on port: ${port}`);
-});
+app.listen(port, () => { logger.info(`Server running on port: ${port}`); });

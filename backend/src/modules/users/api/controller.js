@@ -1,15 +1,9 @@
 import CustomController from "../../../libraries/customs/controller.js";
-import validateFields from "../../../libraries/utils/validatefiels.js";
 import Service from "../logic/service.js";
-import AppError from '../../../config/AppError.js';
 
 export default class Controller extends CustomController {
   constructor() {
     super(new Service);
-    this.requieredfield = {
-      register: ['first_name', 'last_name', 'email', 'password'],
-      login: ['email', 'password'],
-    }
   }
 
   getUserSession = (req, res) => res.sendSuccess(req.user)
@@ -27,7 +21,6 @@ export default class Controller extends CustomController {
   // SESSION TRADICIONAL
   register = async (req, res, next) => {
     try{
-      const userData = validateFields(req.body, this.requieredfield.register);
       await this.service.register(userData)
       res.sendCreated({}, "Registro exitoso")
     } catch(error) {
@@ -37,9 +30,7 @@ export default class Controller extends CustomController {
 
   login = async (req, res, next) => {
     try{
-      const userData = validateFields(req.body, this.requieredfield.login);
-
-      const {name, token} = await this.service.login(userData)
+      const { name, token } = await this.service.login(req.body);
       res.sendSuccess({token}, `Log In exitoso con: ${name}`);
     } catch(error) {
       next(error)
