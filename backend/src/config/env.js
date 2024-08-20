@@ -16,6 +16,10 @@ const configEnv = {
   gmail_user_name: process.env.GMAIL_USER_NAME,
   gmail_user_app: process.env.GMAIL_USER_APP,
   gmail_pass_app: process.env.GMAIL_PASS_APP,
+
+  // linkedin
+  linkedin_client_id: process.env.LINKEDIN_CLIENT_ID,
+  linkedin_client_secret: process.env.LINKEDIN_CLIENT_SECRET
 }
 
 export default configEnv;

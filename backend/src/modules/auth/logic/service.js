@@ -64,4 +64,31 @@ export default class Service extends CustomService {
     password = await createHashAsync(password)
     return await this.dao.update({_id: uid}, {password, update: Date.now()})
   }
+
+  // LINKEDIN
+  registerOrLogin = async (profile) => {
+    console.log(profile);
+    
+    const email = profile.emails[0].value;
+    let user = await this.dao.getBy({email});
+    
+    if (!user) {
+      // Crear nuevo usuario si no existe
+      const newUser = {
+        first_name: profile.name.givenName,
+        last_name: profile.name.familyName,
+        email,
+        linkedinId: profile.id,
+        role: "Client",
+      };
+      user = await this.dao.create(newUser);
+    } else {
+      // Si el usuario ya existe, actualizar su última conexión
+      await this.dao.updateConection({_id: user._id});
+    }
+
+    // Crear token de autenticación
+    const token = createToken({_id: user._id, role: user.role});
+    return {name: user.first_name, token};
+  }
 }

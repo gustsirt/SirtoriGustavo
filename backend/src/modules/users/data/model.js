@@ -15,6 +15,9 @@ const userSchema = new Schema({
   birthday:    { type: Date,     },
   phone:       { type: String, maxLength: 20   },
 
+  // external Auth
+  linkedinId:  { type: String,   },
+  
   // data of conection
   created:     { type: Date,   default: Date.now,  immutable: true, },
   updated:     { type: Date,   default: Date.now,  },
