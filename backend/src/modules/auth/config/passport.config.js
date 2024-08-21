@@ -24,28 +24,45 @@ const initializePassport = () => {
     ),
   );
 
-  passport.use(new LinkedInStrategy({
+  passport.use('linkedin', new LinkedInStrategy({
     clientID: configEnv.linkedin_client_id,
     clientSecret: configEnv.linkedin_client_secret,
     callbackURL: "http://localhost:8080/v1/auth/linkedin/callback",
-    scope: ['r_emailaddress', 'r_liteprofile'],
+    scope: ['openid', 'profile', 'email'],
   }, async function(accessToken, refreshToken, profile, done) {
-    const service = new Service();
-    const user = await service.registerOrLogin(profile);
-    return done(null, user);
-  }));
+      try {
+        console.log('Authorization Code:', code);  // Log del código recibido
+        console.log('Access Token:', accessToken); // Log del token de acceso recibido
+        console.log('LinkedIn Profile:', profile);
+    
+        if (!profile) {
+          console.error('Failed to fetch user profile.');
+          return done(new Error('Failed to fetch user profile.'));
+        }
 
-  passport.serializeUser((user, done) => {
-    done(null, user);
-  });
-  
-  passport.deserializeUser((obj, done) => {
-    done(null, obj);
-  });
+        // Aquí es donde normalmente buscarías o crearías un usuario
+        return done(null, profile);
+      } catch (error) {
+        console.error(error);
+        return done(error);
+      }
+      // try {
+      //   console.log(profile);
+      
+      //   const service = new Service();
+      //   const user = await service.registerOrLogin(profile);
+      //   return done(null, user);
+      // } catch (error) {
+      //   console.error('Error fetching user profile:', error);
+      //   return done(error);
+      // }
+  }));
 };
 
 // https://github.com/bruceskills/linkedin-login-using-nodejs-and-passport
 // https://www.youtube.com/watch?v=4zCYJRVGq2A
 // https://levelup.gitconnected.com/step-by-step-guide-to-authenticate-users-with-linkedin-in-your-express-app-10af68b91b13
 
+
+// https://github.com/alexmarinmendez/linkedin-signin-with-openid
 export default initializePassport;

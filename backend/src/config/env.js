@@ -19,7 +19,9 @@ const configEnv = {
 
   // linkedin
   linkedin_client_id: process.env.LINKEDIN_CLIENT_ID,
-  linkedin_client_secret: process.env.LINKEDIN_CLIENT_SECRET
+  linkedin_client_secret: process.env.LINKEDIN_CLIENT_SECRET,
+  linkedin_redirect_uri: process.env.LINKEDIN_REDIRECT_URI,
+  linkedin_scope: process.env.LINKEDIN_SCOPE,
 }
 
 export default configEnv;
