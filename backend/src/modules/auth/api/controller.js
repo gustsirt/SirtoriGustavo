@@ -1,3 +1,4 @@
+import AppError from "../../../config/AppError.js";
 import CustomController from "../../../libraries/customs/controller.js";
 import { Authorization, Redirect } from "../config/authLinkedIn.js";
 import Service from "../logic/service.js";
@@ -10,8 +11,8 @@ export default class Controller extends CustomController {
   // SESSION TRADICIONAL
   register = async (req, res, next) => {
     try{
-      await this.service.register(userData)
-      res.sendCreated({}, "Registro exitoso")
+      const { token } = await this.service.register(req.body)
+      res.sendCreated({token}, "Sign In success")
     } catch(error) {
       next(error)
     }
@@ -20,7 +21,7 @@ export default class Controller extends CustomController {
   login = async (req, res, next) => {
     try{
       const { name, token } = await this.service.login(req.body);
-      res.sendSuccess({token}, `Log In exitoso con: ${name}`);
+      res.sendSuccess({token}, `Log In success with: ${name}`);
     } catch(error) {
       next(error)
     }
@@ -51,11 +52,17 @@ export default class Controller extends CustomController {
   autorize = async (req, res, next) => {
     res.redirect(Authorization())
   }
+
   redirect = async (req, res, next) => {
-    const response = await Redirect(req.query.code)
-    if (!response) return res.redirect('/')
-      console.log(response);
-    req.user = response
-    res.sendSuccess(response)
+    try{
+      const profile = await Redirect(req.query.code)
+      if (!profile) {
+        throw new AppError("LinkedIn authorization Error", 401);
+      }
+      const { token } = await this.service.registerOrLogin(profile, "Linkedin")
+      res.sendCreated({token}, "Auth success")
+    } catch(error) {
+      next(error)
+    }
   }
 }

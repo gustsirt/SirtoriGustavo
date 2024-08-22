@@ -1,12 +1,20 @@
 import { Joi, Segments } from 'celebrate';
+import { DOCTYPE } from '../../valueList.js';
 
 const validSchema = {
   register: {
     [Segments.BODY]: Joi.object().keys({
-      first_name: Joi.string().max(50).required(),
-      last_name: Joi.string().max(50).required(),
+      given_name: Joi.string().max(50).required(),
+      family_name: Joi.string().max(50).required(),
       email: Joi.string().email().required(),
       password: Joi.string().min(6).required(),
+      document: Joi.string().max(15).optional(),
+      documenttype: Joi.string().valid(...DOCTYPE).optional(),
+      photo: Joi.string().optional(),
+      presentation: Joi.string().optional(),
+      birthday: Joi.date().optional(),
+      phone: Joi.string().max(20).optional(),
+      linkedinId: Joi.string().optional(),
     }),
   },
   login: {

@@ -20,7 +20,12 @@ export default class Service extends CustomService {
     userData.password = await createHashAsync(userData.password)
     const userFound = await this.dao.getBy({email: userData.email});
     if (userFound) throw new AppError(`Ya existe un usuario con ese email. pruebe con otro`, 400)
-    return await this.dao.create(userData)
+
+    userData.full_name = `${userData.given_name} ${userData.family_name}`
+    const newuser = await this.dao.create(userData)
+
+    const token = createToken({_id: newuser._id, role: newuser.role})
+    return {name: newuser.given_name, token}
   }
 
   login = async (userData) => {
@@ -41,7 +46,7 @@ export default class Service extends CustomService {
 
     const token = createToken({_id: userFound._id, role: userFound.role})
     await this.dao.updateConection({_id: userFound._id})
-    return {name: userFound.first_name, token}
+    return {name: userFound.given_name, token}
   }
 
   // RECUPERAICON DE CONTRASEÑA
@@ -53,7 +58,7 @@ export default class Service extends CustomService {
     const subject  = 'Recuperar Contraseña'
     const template = 'recoveryUser'
     const context = {
-      user: { first_name: userFound.first_name, email: userFound.email},
+      user: { given_name: userFound.given_name, email: userFound.email},
       url: `${configEnv.cors_origin}/auth/new-password`,
       token
     }
@@ -65,30 +70,41 @@ export default class Service extends CustomService {
     return await this.dao.update({_id: uid}, {password, update: Date.now()})
   }
 
-  // LINKEDIN
-  registerOrLogin = async (profile) => {
+  // EXTERNAL AUTH API
+  registerOrLogin = async (profile, externalApi) => {
     console.log(profile);
     
-    const email = profile.emails[0].value;
-    let user = await this.dao.getBy({email});
-    
-    if (!user) {
-      // Crear nuevo usuario si no existe
-      const newUser = {
-        first_name: profile.name.givenName,
-        last_name: profile.name.familyName,
-        email,
-        linkedinId: profile.id,
-        role: "Client",
-      };
-      user = await this.dao.create(newUser);
-    } else {
-      // Si el usuario ya existe, actualizar su última conexión
-      await this.dao.updateConection({_id: user._id});
+    let user
+    if (externalApi === "Linkedin" )
+    {
+      const email = Array.isArray(profile.emails[0]) ? profile.emails[0].value : profile.emails
+      user = await this.dao.getBy({email});
+      
+      if (!user) {
+        const newUser = {
+          given_name: profile.name.givenName,
+          family_name: profile.name.familyName,
+          email,
+          linkedinId: profile.id,
+          role: "Client",
+        };
+        user = await this.dao.create(newUser);
+      } else {
+        await this.dao.updateConection({_id: user._id});
+      }
+      
+      // actualiziación de valores si no existen
+      let updatedFields = {};
+
+      if (!user.linkedinId) updatedFields.linkedinId = profile.sub;
+      if (!user.linkedinVerified) updatedFields.linkedinId = profile.email_verified;
+      if (!user.photo) updatedFields.photo = profile.picture;
+
+      if (Object.keys(updatedFields).length > 0) { user = await this.dao.update({_id: user._id}, updatedFields)}
     }
 
     // Crear token de autenticación
     const token = createToken({_id: user._id, role: user.role});
-    return {name: user.first_name, token};
+    return {name: user.given_name, token};
   }
 }
