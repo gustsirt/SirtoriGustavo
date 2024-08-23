@@ -72,14 +72,15 @@ export default class Service extends CustomService {
 
   // EXTERNAL AUTH API
   registerOrLogin = async (profile, externalApi) => {
-    console.log(profile);
+    console.log("profile: ",profile);
+    console.log("externalApi: ",externalApi);
     
     let user
     if (externalApi === "Linkedin" )
     {
-      const email = Array.isArray(profile.emails[0]) ? profile.emails[0].value : profile.emails
+      const email = Array.isArray(profile.email[0]) ? profile.email[0].value : profile.email
       user = await this.dao.getBy({email});
-      
+
       if (!user) {
         const newUser = {
           given_name: profile.name.givenName,
