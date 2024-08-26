@@ -2,30 +2,22 @@
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx,html}",
   ],
   theme: {
     extend: {
       fontFamily: {
-        roboto: ['Roboto', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'], // Tipografía Principal
+        roboto:     ['Roboto', 'sans-serif'],     // Tipografía Secundaria
+        lato:       ['Lato', 'sans-serif'],       // Tipografía Alternativa
       },
       colors: {
-        Purple: '#6945FF',
-        Yellow: '#FFDC00',
-        YellowDeselect: '#FFF8CC',
-        PurpleHover: '#5300B8',
-        whiteCustom: '#FFFFFFBF',
-        Grey: '#9B9B9B',
-        BorderGrey: '#EFF0F6',
-        card: '#444',
-        yellowInput: '#FFDC00',
-        a1a2: '#25CFB7',
-        b1b2: '#3A9FB6',
-        c1c2: '#3C5A99',
-        inputBg: '#F9F9F9',
-        darkGray: '#444444',
-        tableHead: '#1B1B1B',
-        redError: '#D33013'
+        primary:    '#2B3A67', // Azul Oscuro*
+        secondary:  '#3EB489', // Verde Esmeralda
+        background: '#2B3A67', // Gris Claro
+        accent:     '#FFA726', // Naranja Suave (contraste)
+        text:       '#333333', // Gris Oscuro
+        error:      '#D32F2F', // Rojo Alerta
       },
       // backgroundImage: {
       //   'fondo': "url('/fondoLogin.jpg')"

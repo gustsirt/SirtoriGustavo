@@ -11,10 +11,9 @@ const validSchema = {
       document: Joi.string().max(15).optional(),
       documenttype: Joi.string().valid(...DOCTYPE).optional(),
       photo: Joi.string().optional(),
-      presentation: Joi.string().optional(),
+      bio: Joi.string().optional(),
       birthday: Joi.date().optional(),
       phone: Joi.string().max(20).optional(),
-      linkedinId: Joi.string().optional(),
     }),
   },
   login: {
