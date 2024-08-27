@@ -15,7 +15,7 @@ const router = createRouter({
   ),
   defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
   context: {
-    auth: null,
+    auth: false,
     queryClient,
   },
 })
