@@ -5,13 +5,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  role: { type: String, enum: ['admin', 'member'], default: 'member' },
-  profilePicture: { type: String },
-  bio: { type: String },
+  ...
   skills: [{ type: String }],
   experience: [{ 
     title: { type: String, required: true },
@@ -26,6 +20,7 @@ const UserSchema = new Schema({
     institution: { type: String, required: true },
     date: { type: Date, required: true },
     file: { type: String }
+    // falta tipo: "Curso", "Terciaria", "Grado", etc...
   }],
   socialLinks: {
     linkedin: { type: String },

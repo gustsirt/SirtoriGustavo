@@ -8,15 +8,17 @@ const userSchema = new Schema({
   full_name:   { type: String,   },
   email:       { type: String,   required: true, match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Debe completar un email valido'], unique: true },
   password:    { type: String,   required: true },
-  role:        { type: String,   default: "Client", enum: ROLES,},
+  role:        { type: String,   default: "User", enum: ROLES,},
   document:    { type: String,   maxLength: 15 },
   documenttype:{ type: String,   enum: DOCTYPE },
 
+  // contact info
+  phone:       { type: String, maxLength: 20   },
+
   // aditional properties
   photo:               String,
-  presentation:        String,
+  bio:                 String,
   birthday:            Date,
-  phone:       { type: String, maxLength: 20   },
 
   // external Auth
   linkedinId:          String,

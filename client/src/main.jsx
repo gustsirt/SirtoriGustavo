@@ -18,7 +18,7 @@ const router = createRouter({
   defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
   defaultNotFoundComponent: () => <div>Global Not Found 🙄</div>, // 404
   context: {
-    auth: null,
+    auth: false,
     queryClient,
   },
 })
