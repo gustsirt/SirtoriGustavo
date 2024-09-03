@@ -1,5 +1,4 @@
 import { createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router'
-import LayoutFooter from '../../components/layout/LayoutFooter'
 
 export const Route = createRootRouteWithContext()({
   component: () => (
@@ -14,7 +13,7 @@ export const Route = createRootRouteWithContext()({
       </div>
       <hr/>
       <Outlet />
-      <LayoutFooter/>
+      
     </>
   ),
 })
