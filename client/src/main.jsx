@@ -4,6 +4,8 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { routeTree } from './routeTree.gen'
 import { Spinner } from '../components/Spinner'
+import './index.css'
+import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 export const queryClient = new QueryClient()
 const router = createRouter({
@@ -14,6 +16,7 @@ const router = createRouter({
     </div>
   ),
   defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
+  defaultNotFoundComponent: () => <div>Global Not Found 🙄</div>, // 404
   context: {
     auth: null,
     queryClient,
@@ -27,6 +30,7 @@ if (!rootElement.innerHTML) {
   root.render(
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
+      <TanStackRouterDevtools router={router} />
     </QueryClientProvider>
   )
 }
