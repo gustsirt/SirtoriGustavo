@@ -1,4 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
+import LayoutFooter from '../components/Layout/LayoutFooter'
+import NavBar from '../components/Layout/Navbar'
 
 export const Route = createFileRoute('/_private')({
   component: privateLayout,
@@ -7,8 +9,9 @@ export const Route = createFileRoute('/_private')({
 function privateLayout () {
   return (
     <>
-      <div>Private Layout!</div>
+      <NavBar type="private" />
       <Outlet />
+      <LayoutFooter />
     </>
   )
 }
