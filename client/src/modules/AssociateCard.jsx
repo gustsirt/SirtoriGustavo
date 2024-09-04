@@ -3,7 +3,11 @@ import React from 'react';
 function AssociateCard({ name, title, bio, profileImage, contact }) {
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
-      <img className="w-full h-48 object-cover" src={profileImage} alt={`${name} profile`} />
+      {profileImage ? (
+        <img className="w-full h-48 object-cover" src={profileImage} alt={`${name} profile`} />
+      ) : (
+        <img className="w-full h-48 object-cover" src="./img/person.svg" alt="Default profile" />
+      )}
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{name}</div>
         <p className="text-gray-700 text-base">{title}</p>

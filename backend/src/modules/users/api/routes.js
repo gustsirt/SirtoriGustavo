@@ -10,8 +10,11 @@ const controller = new Controller()
 
 // http://localhost:8080/v1/users/
 
-// user
 router
+// public
+.get    ('/asociates', controller.getAsociates)
+
+// user
 .get    ('/current',        handleAuth(users),   controller.getUserSession)
 .put    ('/current/update', handleAuth(users),   controller.currentUpdate)
 .put    ('/current/uploadphoto',  

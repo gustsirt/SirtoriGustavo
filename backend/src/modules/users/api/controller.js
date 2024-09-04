@@ -8,6 +8,15 @@ export default class Controller extends CustomController {
 
   getUserSession = (req, res) => res.sendSuccess(req.user)
 
+  getAsociates =  async (req, res) => {
+    try {
+      const asociates = await this.service.get({public: true}, true) 
+      res.sendSuccess(asociates)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   currentUpdate = async (req, res, next) => {
     try{
       let { updateUser } = req.body

@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import AssociateCard from '../../components/AssociateCard';
+import AssociateCard from '../../modules/AssociateCard';
 
 export const Route = createLazyFileRoute('/_public/')({
   component: Home,
@@ -24,7 +24,6 @@ const associates = [
     name: 'Jane Smith',
     title: 'Backend Developer',
     bio: 'Con un enfoque en Node.js y MongoDB, Jane ha liderado varios proyectos exitosos en la nube.',
-    profileImage: 'https://via.placeholder.com/150',
     contact: 'jane.smith@example.com',
   },
   // Agrega más asociados según sea necesario...

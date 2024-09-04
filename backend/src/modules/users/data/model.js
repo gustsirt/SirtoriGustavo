@@ -19,6 +19,7 @@ const userSchema = new Schema({
   photo:               String,
   bio:                 String,
   birthday:            Date,
+  public:      { type: Boolean,   default: true},
 
   // external Auth
   linkedinId:          String,
