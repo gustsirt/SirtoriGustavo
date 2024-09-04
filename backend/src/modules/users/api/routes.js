@@ -12,7 +12,7 @@ const controller = new Controller()
 
 router
 // public
-.get    ('/asociates', controller.getAsociates)
+.get    ('/associates', controller.getAsociates)
 
 // user
 .get    ('/current',        handleAuth(users),   controller.getUserSession)

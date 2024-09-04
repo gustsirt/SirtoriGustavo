@@ -1,11 +1,12 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import AssociateCard from '../../modules/AssociateCard';
+import { useGetAsociates } from '../../apis/users.services';
 
 export const Route = createLazyFileRoute('/_public/')({
   component: Home,
 })
 
-const associates = [
+const associatesx = [
   {
     name: 'Gustavo Sirtori',
     title: 'Desarrollador MERN & Analista de Datos',
@@ -30,11 +31,17 @@ const associates = [
 ];
 
 function Home() {
+  const { data, isLoading, error } = useGetAsociates()
+  const associates = data?.data ? data.data : null
+  console.log("associates: ",associates,);
+  console.log("isLoading: ",isLoading,);
+  console.log("error: ",error,);
+
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold text-center mb-8">Asociados</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {associates.map((associate) => (
+        {associatesx.map((associate) => (
           <AssociateCard
             key={associate.name}
             name={associate.name}
