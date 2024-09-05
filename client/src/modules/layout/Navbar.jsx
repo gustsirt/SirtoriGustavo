@@ -4,12 +4,14 @@ const publicNavItems = [
   { name: 'Home', path: '/' },
   { name: 'Login', path: '/login' },
   { name: 'Register', path: '/register' },
+  { name: 'Private', path: '/private' },
 ];
 
 const privateNavItems = [
-  { name: 'Dashboard', path: '/dashboard' },
+  { name: 'Private', path: '/private' },
   { name: 'Profile', path: '/profile' },
   { name: 'Logout', path: '/logout' },
+  { name: 'HomePublic', path: '/' },
 ];
 
 export default function NavBar({ type = 'public' }) {

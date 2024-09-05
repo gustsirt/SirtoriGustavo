@@ -18,7 +18,8 @@ const router = createRouter({
   defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
   defaultNotFoundComponent: () => <div>Global Not Found 🙄</div>, // 404
   context: {
-    auth: false,
+    auth: false, // Cambia a true cuando el usuario esté autenticado
+    isAuthenticated: () => !!localStorage.getItem('token'), // Verifica si hay un token en localStorage
     queryClient,
   },
 })
