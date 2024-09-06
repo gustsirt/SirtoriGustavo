@@ -4,6 +4,9 @@ import NavBar from '../modules/layout/Navbar'
 
 export const Route = createFileRoute('/_public')({
   component: publicLayout,
+  loader: ({context}) => {
+    console.log(": ", context.auth );
+  }
 })
 
 function publicLayout () {

@@ -16,3 +16,5 @@ export const useGetAsociates = () => {
   const associates = data?.data ? data.data : null
   return { data: associates, isLoading, error } 
 }
+
+// Ruta : "/v1/auth/login"

@@ -1,4 +1,4 @@
-import { createLazyFileRoute, useLoaderData } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import AssociateCard from '../../modules/AssociateCard';
 import { useGetAsociates } from '../../apis/users.services';
 
@@ -21,7 +21,7 @@ function Home() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {associates.map((associate) => (
           <AssociateCard
-            key={associates._id}
+            key={associate._id}
             name={associate.full_name}
             title={"--- Agregar titulo ---"}
             bio={associate.bio}
