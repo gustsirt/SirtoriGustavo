@@ -13,6 +13,7 @@ const controller = new Controller()
 router
 .post   ('/register',       celebrate(validSchema.register), controller.register)
 .post   ('/login',          celebrate(validSchema.login),    controller.login)
+.post   ('/logout',         (req, res) => {})
 .post   ('/userrecovery',   celebrate(validSchema.email),    controller.userRecovery)
 .put    ('/userrecovery',   handleAuth(users), celebrate(validSchema.updatePassword), controller.userRecoveryPassword)
 

@@ -18,6 +18,7 @@ import { Route as PrivateImport } from './routes/_private'
 import { Route as PublicRegisterImport } from './routes/_public/register'
 import { Route as PublicLoginImport } from './routes/_public/login'
 import { Route as PrivatePrivateImport } from './routes/_private/private'
+import { Route as PrivateLogoutImport } from './routes/_private/logout'
 
 // Create Virtual Routes
 
@@ -55,6 +56,11 @@ const PrivatePrivateRoute = PrivatePrivateImport.update({
   getParentRoute: () => PrivateRoute,
 } as any)
 
+const PrivateLogoutRoute = PrivateLogoutImport.update({
+  path: '/logout',
+  getParentRoute: () => PrivateRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -72,6 +78,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof PublicImport
       parentRoute: typeof rootRoute
+    }
+    '/_private/logout': {
+      id: '/_private/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof PrivateLogoutImport
+      parentRoute: typeof PrivateImport
     }
     '/_private/private': {
       id: '/_private/private'
@@ -107,7 +120,10 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  PrivateRoute: PrivateRoute.addChildren({ PrivatePrivateRoute }),
+  PrivateRoute: PrivateRoute.addChildren({
+    PrivateLogoutRoute,
+    PrivatePrivateRoute,
+  }),
   PublicRoute: PublicRoute.addChildren({
     PublicLoginRoute,
     PublicRegisterRoute,
@@ -130,6 +146,7 @@ export const routeTree = rootRoute.addChildren({
     "/_private": {
       "filePath": "_private.jsx",
       "children": [
+        "/_private/logout",
         "/_private/private"
       ]
     },
@@ -140,6 +157,10 @@ export const routeTree = rootRoute.addChildren({
         "/_public/register",
         "/_public/"
       ]
+    },
+    "/_private/logout": {
+      "filePath": "_private/logout.jsx",
+      "parent": "/_private"
     },
     "/_private/private": {
       "filePath": "_private/private.jsx",

@@ -2,7 +2,7 @@ import { formOptions, useForm } from '@tanstack/react-form';
 import { z } from 'zod';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import axiosInstance from '../../../apis/hooks/axiosInstance';
-import { redirect, useNavigate, useRouteContext } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 
 // Definición del esquema de validación usando Zod
 const loginSchema = z.object({
@@ -16,7 +16,7 @@ const formOpts = formOptions({
     email: 'gustavo.sirtori@gmail.com',
     password: '123456',
   },
-  resolver: zodValidator(loginSchema),  // Conexión del esquema Zod con el formulario
+  resolver: zodValidator(loginSchema),
 });
 
 function FieldInfo({ field }) {
@@ -32,8 +32,9 @@ function FieldInfo({ field }) {
   );
 }
 
-export default function Login() {
+export default function Login({authentication}) {
   const navigate = useNavigate({from: '/'});
+  
   const form = useForm({
     ...formOpts,
     onSubmit: async ({ value }) => {
@@ -44,13 +45,12 @@ export default function Login() {
       const response = await axiosInstance.post('/v1/auth/login', value)
 
       if (!response.data.isError) {
-        localStorage.setItem('token', response.data.data);
-        const { setAuth } = useRouteContext()
-        setAuth({ isAuthenticated: true });
+        console.log('token: ', response.data.data);
+        
+        authentication.signIn(response.data.data.token)
 
         // Muestra un mensaje de éxito (opcional)
         console.log(response.data.message); // Log In success with: Gustavo
-
         navigate({to: '/private' })
 
       } else {
