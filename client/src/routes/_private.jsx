@@ -6,7 +6,9 @@ export const Route = createFileRoute('/_private')({
   beforeLoad: async ({context}) => {
     const { isAuthenticated } = context.authentication;
     console.log("Auth status:", isAuthenticated());
+
     if (!isAuthenticated()) { throw redirect({ to: '/login', });}
+    
   },
   component: privateLayout,
 })

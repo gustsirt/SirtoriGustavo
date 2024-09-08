@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import AssociateCard from '../../modules/AssociateCard';
+import AssociateCard from '../../modules/others/AssociateCard';
 import { useGetAsociates } from '../../apis/users.services';
 
 export const Route = createLazyFileRoute('/_public/')({

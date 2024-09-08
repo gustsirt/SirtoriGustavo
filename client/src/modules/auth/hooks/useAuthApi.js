@@ -31,6 +31,7 @@ export default function useAuthApi() {
       setLoading(false);
     }
   }
+
   async function register(credentials, navigate) {
     setLoading(true);
     setError(null);
@@ -53,6 +54,10 @@ export default function useAuthApi() {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function getUser () {
+    
   }
 
   return {loading, error, setError, login, register}
