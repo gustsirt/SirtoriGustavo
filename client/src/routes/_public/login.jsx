@@ -6,7 +6,5 @@ export const Route = createFileRoute('/_public/login')({
 })
 
 function PageLogin () {
-  const { authentication } = Route.useRouteContext()
-
-  return <Login authentication={authentication} />
+  return <Login/>
 }

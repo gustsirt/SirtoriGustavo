@@ -1,8 +1,8 @@
 import { formOptions, useForm } from '@tanstack/react-form';
 import { z } from 'zod';
 import { zodValidator } from '@tanstack/zod-form-adapter';
-import axiosInstance from '../../../apis/hooks/axiosInstance';
 import { useNavigate } from '@tanstack/react-router';
+import useAuthApi from '../hooks/useAuthApi';
 
 // Definición del esquema de validación usando Zod
 const loginSchema = z.object({
@@ -32,34 +32,31 @@ function FieldInfo({ field }) {
   );
 }
 
-export default function Login({authentication}) {
-  const navigate = useNavigate({from: '/'});
+export default function Login() {
+  const navigate = useNavigate({from: '/login'});
+  const {error, setError, login} = useAuthApi()
   
   const form = useForm({
     ...formOpts,
     onSubmit: async ({ value }) => {
       console.log(value);
       const {email, password} = value
-      console.log({email, password});
-
-      const response = await axiosInstance.post('/v1/auth/login', value)
-
-      if (!response.data.isError) {
-        console.log('token: ', response.data.data);
-        
-        authentication.signIn(response.data.data.token)
-
-        // Muestra un mensaje de éxito (opcional)
-        console.log(response.data.message); // Log In success with: Gustavo
-        navigate({to: '/private' })
-
-      } else {
-        console.error('Error en el login:', response.data.message);
-        // Aquí puedes mostrar un mensaje de error al usuario
-      }
-
+      await login({email, password}, navigate);
     },
   });
+
+  if (error) return (
+    <div className="p-8 min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="w-full max-w-sm p-8 bg-white shadow-md rounded-lg flex flex-col items-center">
+        <p className="text-xl font-semibold mb-6 text-gray-700" >{error}</p>
+        <button
+            onClick={()=>setError(null)}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Re intentar
+        </button>
+      </div>
+    </div>)
 
   return (
     <div className="p-8 min-h-screen flex items-center justify-center bg-gray-100">

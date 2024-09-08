@@ -1,5 +1,4 @@
-import { useRouter } from "@tanstack/react-router";
-import { useState } from "react";
+
 
 export const useAuth = () => {
   function isAuthenticated() {return !!localStorage.getItem("token")}
