@@ -9,6 +9,12 @@ export const useFetch = (key, url, options = {}) => {
     ...options
   });
 };
+/*
+  return --> status, (isPending, isError, isSuccess = corresponde ademas un stutus)
+              isError --> error
+              isSuccess --> data
+*/
+// { isPending, isError,isSuccess, error, data}
 
 /* OPTIONS
 * 1. queryKey

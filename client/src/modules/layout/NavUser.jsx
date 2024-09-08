@@ -7,7 +7,9 @@ export default function NavUser() {
 
   if (!currentUser) { return null; }
 
-  const initials = toString(currentUser?.given_name?.charAt(0) + currentUser?.family_name?.charAt(0)).toUpperCase()
+  console.log("!!!!!!!!!!!!!!!! ",currentUser);
+  
+  let initials = currentUser?.given_name?.charAt(0) + currentUser?.family_name?.charAt(0)
   console.log(initials);
 
   return (
@@ -15,18 +17,13 @@ export default function NavUser() {
       {currentUser?.photo
       ? (
         <img className='flex justify-center items-center font-bold rounded-full w-8 h-8'
-          src={crearURLCompleta(currentUser.photo)}
+          src={currentUser.photo}
           alt="User Avatar"
         />)
-      : <span className='flex justify-center items-center font-bold rounded-full w-8 h-8'>
+      : <span className='flex justify-center items-center font-bold rounded-full w-8 h-8 uppercase'>
           {initials ? initials : "?"}
         </span>
       }
-      <img
-        src={currentUser.avatar || '/default-avatar.png'}
-        alt="User Avatar"
-        className="w-8 h-8 rounded-full"
-      />
       <span className="text-gray-700 font-medium">
         {currentUser.full_name}
       </span>
