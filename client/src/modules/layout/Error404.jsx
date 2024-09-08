@@ -3,7 +3,7 @@ import NavBar from './Navbar'
 import LayoutFooter from './LayoutFooter'
 
 const Error404 = () => {
-  const auth = useState(!!localStorage.getItem('token'))
+  const auth = !!localStorage.getItem('token')
 
   return (
     <>

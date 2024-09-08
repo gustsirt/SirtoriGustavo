@@ -3,12 +3,12 @@ import LayoutFooter from '../modules/layout/LayoutFooter'
 import NavBar from '../modules/layout/Navbar'
 
 export const Route = createFileRoute('/_private')({
-  component: privateLayout,
   beforeLoad: async ({context}) => {
     const { isAuthenticated } = context.authentication;
     console.log("Auth status:", isAuthenticated());
     if (!isAuthenticated()) { throw redirect({ to: '/login', });}
-  }
+  },
+  component: privateLayout,
 })
 
 function privateLayout () {  
