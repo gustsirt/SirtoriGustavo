@@ -1,8 +1,8 @@
+// * Store de Usuarios
 
 const createUserSlice = (set, get) => ({
-
   isAuthenticated: !!localStorage.getItem('token'),
-  token: localStorage.getItem('token') || null,
+  getToken: () => localStorage.getItem('token') || null,
   login: (token) => {
     localStorage.setItem('token', token);
     set({ token, isAuthenticated: true });

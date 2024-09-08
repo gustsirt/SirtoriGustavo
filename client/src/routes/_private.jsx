@@ -4,10 +4,10 @@ import NavBar from '../modules/layout/Navbar'
 
 export const Route = createFileRoute('/_private')({
   beforeLoad: async ({context}) => {
-    const { isAuthenticated } = context.authentication;
-    console.log("Auth status:", isAuthenticated());
+    const {isAuthenticated} = context;
+    console.log("Auth status:", isAuthenticated);
 
-    if (!isAuthenticated()) { throw redirect({ to: '/login', });}
+    if (!isAuthenticated) { throw redirect({ to: '/login', });}
     
   },
   component: privateLayout,

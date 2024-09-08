@@ -4,31 +4,33 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { routeTree } from './routeTree.gen'
 import './index.css'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { Spinner } from './components/Spinner'
-import { useAuth } from './modules/auth/hooks/useAuth'
+import { Spinner } from './modules/layout/Spinner'
+import { useAppStore } from './store/useAppStore'
 
 export const queryClient = new QueryClient()
 
 const App = () => {
+  const { isAuthenticated, getToken } = useAppStore();
+
   const router = useMemo(
     () =>
       createRouter({
         routeTree,
         context: {
-          authentication: null,
+          isAuthenticated,
+          token: getToken(),
           queryClient,
         },
         defaultPendingComponent: () => (<div className={`p-2 text-2xl`}><Spinner /></div>),
         defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
         defaultNotFoundComponent: () => <div>Global Not Found 🙄</div>, // 404
       }),
+    [isAuthenticated, getToken],
   )
-
-  const authentication = useAuth();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} context={{ authentication }} />
+      <RouterProvider router={router}/>
       <TanStackRouterDevtools router={router} />
     </QueryClientProvider>
   )

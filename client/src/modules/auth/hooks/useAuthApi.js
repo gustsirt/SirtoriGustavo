@@ -1,64 +1,43 @@
 import { useState } from "react"
 import axiosInstance from "../../../config/axiosInstance";
-import { useAuth } from "./useAuth";
+import { useAppStore } from "../../../store/useAppStore";
 
 
 export default function useAuthApi() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { signIn } = useAuth()
+  const { login: signIn } = useAppStore();
 
-  async function login(credentials, navigate) {
+  async function authenticate(option, credentials, navigate) {
     setLoading(true);
     setError(null);
+    const url = option === 'login' ? '/v1/auth/login' : '/v1/auth/register';
+
     try {
-      let response = await axiosInstance.post("/v1/auth/login", credentials);
-      response = response.data
+      const response = await axiosInstance.post(url, credentials);
+      const data = response.data;
 
-      if(response?.isError === true) throw new Error(response.message)
+      if (data?.isError) throw new Error(data.message);
 
-      console.log("Login successful:", response.message);
-      
-      const token = response.data.token
-      console.log("token:", token);
-      signIn(token)
-      navigate({to: '/private' })
+      const token = data.data.token;
+      console.log("token:", token); // <--------------------------------------------------------- Eliminar despues
+      signIn(token);
+      navigate({ to: '/private' });
+
+      console.log(`${option === 'login' ? 'Login' : 'Register'} successful`, data.message); // <------------ Reemplazar por Notificacion
 
     } catch (error) {
-      // console.log(error.response.data.message);
-      setError(error.response.data.message || "Login failed");
+      setError(error.response?.data?.message || 'Authentication failed');
     } finally {
       setLoading(false);
     }
   }
 
-  async function register(credentials, navigate) {
-    setLoading(true);
-    setError(null);
-    try {
-      let response = await axiosInstance.post("/v1/auth/register", credentials);
-      response = response.data
-
-      if(response?.isError === true) throw new Error(response.message)
-
-      console.log("Register successful:", response.message);
-      
-      const token = response.data.token
-      console.log("token:", token);
-      signIn(token)
-      navigate({to: '/private' })
-
-    } catch (error) {
-      // console.log(error.response.data.message);
-      setError(error.response.data.message || "Login failed");
-    } finally {
-      setLoading(false);
-    }
+  return {
+    loading,
+    error,
+    setError,
+    login: (credentials, navigate) => authenticate('login', credentials, navigate),
+    register: (credentials, navigate) => authenticate('register', credentials, navigate),
   }
-
-  async function getUser () {
-    
-  }
-
-  return {loading, error, setError, login, register}
 }

@@ -5,8 +5,8 @@ import NavBar from '../modules/layout/Navbar'
 export const Route = createFileRoute('/_public')({
   component: publicLayout,
   beforeLoad: async ({context}) => {
-    const { isAuthenticated } = context.authentication;
-    console.log("Auth status:", isAuthenticated());
+    const {isAuthenticated} = context;
+    console.log("Auth status:", isAuthenticated);
   }
 })
 
