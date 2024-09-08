@@ -6,7 +6,7 @@ import { useAppStore } from "../../../store/useAppStore";
 export default function useAuthApi() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { login: signIn } = useAppStore();
+  const { login: signIn, getUser } = useAppStore();
 
   async function authenticate(option, credentials, navigate) {
     setLoading(true);
@@ -20,8 +20,8 @@ export default function useAuthApi() {
       if (data?.isError) throw new Error(data.message);
 
       const token = data.data.token;
-      console.log("token:", token); // <--------------------------------------------------------- Eliminar despues
-      signIn(token);
+      await signIn(token);
+      await getUser()
       navigate({ to: '/private' });
 
       console.log(`${option === 'login' ? 'Login' : 'Register'} successful`, data.message); // <------------ Reemplazar por Notificacion
