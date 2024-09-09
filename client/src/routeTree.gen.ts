@@ -17,6 +17,7 @@ import { Route as PublicImport } from './routes/_public'
 import { Route as PrivateImport } from './routes/_private'
 import { Route as PublicRegisterImport } from './routes/_public/register'
 import { Route as PublicLoginImport } from './routes/_public/login'
+import { Route as PublicUsernameImport } from './routes/_public/$username'
 import { Route as PrivatePrivateImport } from './routes/_private/private'
 import { Route as PrivateLogoutImport } from './routes/_private/logout'
 
@@ -48,6 +49,11 @@ const PublicRegisterRoute = PublicRegisterImport.update({
 
 const PublicLoginRoute = PublicLoginImport.update({
   path: '/login',
+  getParentRoute: () => PublicRoute,
+} as any)
+
+const PublicUsernameRoute = PublicUsernameImport.update({
+  path: '/$username',
   getParentRoute: () => PublicRoute,
 } as any)
 
@@ -93,6 +99,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivatePrivateImport
       parentRoute: typeof PrivateImport
     }
+    '/_public/$username': {
+      id: '/_public/$username'
+      path: '/$username'
+      fullPath: '/$username'
+      preLoaderRoute: typeof PublicUsernameImport
+      parentRoute: typeof PublicImport
+    }
     '/_public/login': {
       id: '/_public/login'
       path: '/login'
@@ -125,6 +138,7 @@ export const routeTree = rootRoute.addChildren({
     PrivatePrivateRoute,
   }),
   PublicRoute: PublicRoute.addChildren({
+    PublicUsernameRoute,
     PublicLoginRoute,
     PublicRegisterRoute,
     PublicIndexLazyRoute,
@@ -153,6 +167,7 @@ export const routeTree = rootRoute.addChildren({
     "/_public": {
       "filePath": "_public.jsx",
       "children": [
+        "/_public/$username",
         "/_public/login",
         "/_public/register",
         "/_public/"
@@ -165,6 +180,10 @@ export const routeTree = rootRoute.addChildren({
     "/_private/private": {
       "filePath": "_private/private.jsx",
       "parent": "/_private"
+    },
+    "/_public/$username": {
+      "filePath": "_public/$username.jsx",
+      "parent": "/_public"
     },
     "/_public/login": {
       "filePath": "_public/login.jsx",

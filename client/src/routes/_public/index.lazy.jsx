@@ -22,6 +22,7 @@ function Home() {
         {associates.map((associate) => (
           <AssociateCard
             key={associate._id}
+            username = {associate.username}
             name={associate.full_name}
             title={"--- Agregar titulo ---"}
             bio={associate.bio}
