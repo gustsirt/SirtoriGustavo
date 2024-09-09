@@ -21,6 +21,7 @@ export default class Service extends CustomService {
     const userFound = await this.dao.getBy({email: userData.email});
     if (userFound) throw new AppError(`Ya existe un usuario con ese email. pruebe con otro`, 400)
 
+    userData.username = `${userData.given_name}_${userData._id}`
     userData.full_name = `${userData.given_name} ${userData.family_name}`
     const newuser = await this.dao.create(userData)
 
@@ -85,6 +86,8 @@ export default class Service extends CustomService {
         const newUser = {
           given_name: profile.name.givenName,
           family_name: profile.name.familyName,
+          full_name: `${userData.given_name} ${userData.family_name}`,
+          username: `${userData.given_name}_${userData._id}`,
           email,
           linkedinId: profile.id,
           role: "Client",

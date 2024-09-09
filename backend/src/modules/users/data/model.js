@@ -6,6 +6,7 @@ const userSchema = new Schema({
   given_name:  { type: String,   required: true, maxLength: 50 },
   family_name: { type: String,   required: true, maxLength: 50 },
   full_name:   { type: String,   },
+  username:    { type: String,   unique: true  },
   email:       { type: String,   required: true, match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Debe completar un email valido'], unique: true },
   password:    { type: String,   required: true },
   role:        { type: String,   default: "User", enum: ROLES,},
