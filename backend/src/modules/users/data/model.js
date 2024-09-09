@@ -37,6 +37,26 @@ const userSchema = new Schema({
   },
 })
 
+// Middleware que se ejecuta antes de guardar el documento
+userSchema.pre('save', function(next) {
+  if (!this.username && this._id) {
+    this.username = `${this.given_name}_${this._id.toString()}`.toLowerCase();
+  }
+  if (!this.full_name) {
+    this.full_name = `${this.given_name} ${this.family_name}`;
+  }
+  next();
+});
+
+// Middleware que se ejecuta después de guardar un usuario
+// userSchema.post('save', function(doc, next) {
+//   if (!doc.full_name) {
+//     doc.full_name = `${doc.given_name} ${doc.family_name}`;
+//     doc.save();
+//   }
+//   next();
+// });
+
 userSchema.methods.toJSON = function() {
   const user = this.toObject();
   delete user.password;
