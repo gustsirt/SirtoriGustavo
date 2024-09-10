@@ -8,10 +8,20 @@ export default class Controller extends CustomController {
 
   getUserSession = (req, res) => res.sendSuccess(req.user)
 
-  getAsociates =  async (req, res) => {
+  getAssociates =  async (req, res) => {
     try {
-      const asociates = await this.service.get({public: true}, true) 
-      res.sendSuccess(asociates)
+      const associates = await this.service.get({public: true}, true) 
+      res.sendSuccess(associates)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  getAssociate =  async (req, res) => {
+    try {
+      const { uid } = req.params
+      const associate = await this.service.getBy({_id: uid}, true) 
+      res.sendSuccess(associate)
     } catch (error) {
       next(error)
     }

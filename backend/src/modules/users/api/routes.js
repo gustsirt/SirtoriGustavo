@@ -12,7 +12,8 @@ const controller = new Controller()
 
 router
 // public
-.get    ('/associates', controller.getAsociates)
+.get    ('/associates', controller.getAssociates)
+.get    ('/associate/:uid', controller.getAssociate)
 
 // user
 .get    ('/current',        handleAuth(users),   controller.getUserSession)
