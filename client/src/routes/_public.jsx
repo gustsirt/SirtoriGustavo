@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
-import LayoutFooter from '../modules/layout/LayoutFooter'
-import NavBar from '../modules/layout/Navbar'
-import LayoutTime from '../modules/layout/LayoutTime';
+import LayoutFooter from '../modules/layout/frame/LayoutFooter'
+import NavBar from '../modules/layout/navbar/Navbar'
+import LayoutTime from '../modules/layout/frame/LayoutTime';
 
 export const Route = createFileRoute('/_public')({
   component: publicLayout,

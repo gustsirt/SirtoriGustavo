@@ -1,8 +1,8 @@
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
-import Error404 from '../modules/layout/Error404'
+import Error404 from '../modules/layout/error/Error404'
 import { useAppStore } from '../store/useAppStore';
 import { useEffect } from 'react';
-import ErrorComponent from '../modules/layout/ErrorComponent';
+import ErrorComponent from '../modules/layout/error/ErrorComponent';
 
 export const Route = createRootRouteWithContext()({
   component: PageRoot,

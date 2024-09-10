@@ -22,7 +22,7 @@ const LayoutTime = ({ daytime }) => {
     const classDate = dayjs(daytime).tz(dayjs.tz.guess());
 
     // Formatear la fecha a un formato local con la hora
-    const formattedDate = classDate.format('dddd D [de] MMMM, YYYY - HH:mm');
+    const formattedDate = classDate.format('dddd DD/MM/YYYY - HH:mm');
     
     // Capitalizar el día y el mes de manera adecuada
     const adaptedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1) + ' hs'; // {adaptedDate} --> Domingo 8 de septiembre, 2024 - 21:08 hs

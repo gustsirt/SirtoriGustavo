@@ -2,19 +2,22 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { associateLoader } from '../../apis/users.services';
 import { useEffect, useState } from 'react';
 import { BiLogoGmail, BiLogoLinkedin } from 'react-icons/bi';
-import BackButton from '../../modules/layout/BackButton';
+import { BiEditAlt } from "react-icons/bi";
+import { useAppStore } from '../../store/useAppStore';
+import BackButtons from '../../modules/layout/components/BackButton';
 
 export const Route = createFileRoute('/_public/$username')({
   loader: async ({ params }) => {
     const username = params.username;
     return associateLoader(username)
   },
-  component: PasgeUserPublic
+  component: UserPage
 })
 
-function PasgeUserPublic () {
+function UserPage () {
   const user = Route.useLoaderData()
   const [isLoading, setIsLoading] = useState(true);
+  const { currentUser } = useAppStore();
   console.log(user);
 
   useEffect(() => {
@@ -22,14 +25,15 @@ function PasgeUserPublic () {
       setIsLoading(false);
     }
   }, [user]);
-
+  // <BiEditAlt />
   if (isLoading) {
     return <div className="text-center text-gray-500">Cargando...</div>;
   }
 
   return (
     <div className="relative">
-      <BackButton to={'/'}/>
+      <BackButtons to={'/'}/>
+      { (user.username === currentUser.username) ? <BiEditAlt /> : null}
       <div className="bg-gray-100 min-h-screen py-10">
         <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
           {/* Encabezado con imagen */}
