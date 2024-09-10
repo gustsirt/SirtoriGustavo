@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { BiLogoGmail, BiLogoLinkedin } from 'react-icons/bi';
 import { BiEditAlt } from "react-icons/bi";
 import { useAppStore } from '../../store/useAppStore';
-import BackButtons from '../../modules/layout/components/BackButton';
 import Frame from '../../modules/layout/frame/Frame';
 
 export const Route = createFileRoute('/_public/$username')({
@@ -26,7 +25,7 @@ function UserPage () {
       setIsLoading(false);
     }
   }, [user]);
-  // <BiEditAlt />
+
   if (isLoading) {
     return <div className="text-center text-gray-500">Cargando...</div>;
   }
