@@ -19,8 +19,8 @@ export default class Controller extends CustomController {
 
   getAssociate =  async (req, res) => {
     try {
-      const { uid } = req.params
-      const associate = await this.service.getBy({_id: uid}, true) 
+      const { username } = req.params
+      const associate = await this.service.getBy({username: username}, true) 
       res.sendSuccess(associate)
     } catch (error) {
       next(error)

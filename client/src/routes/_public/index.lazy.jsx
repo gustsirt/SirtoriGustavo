@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import AssociateCard from '../../modules/others/AssociateCard';
-import { useGetAsociates } from '../../apis/users.services';
+import { useGetAssociates } from '../../apis/users.services';
 
 export const Route = createLazyFileRoute('/_public/')({
   component: Home,
@@ -9,7 +9,7 @@ export const Route = createLazyFileRoute('/_public/')({
 function Home() {
   
   //const associates = Route.useLoaderData()
-  const { data: associates, isLoading, error } = useGetAsociates()
+  const { data: associates, isLoading, error } = useGetAssociates()
 
   if (isLoading) { return <span>Loading...</span> }
   if (error) { return <span>Error: {error.message}</span> }

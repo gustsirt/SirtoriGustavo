@@ -28,21 +28,24 @@ const LayoutFooter = () => {
           href="https://www.facebook.com/"
           target="_blank"
           rel="noreferrer"
-          className="flex justify-center items-center w-9 h-9 bg-gray-700 text-gray-300 rounded-full transition duration-300 hover:bg-gray-300 hover:text-gray-700">
+          className="flex justify-center items-center w-9 h-9 bg-gray-700 text-gray-300 rounded-full transition duration-300 hover:bg-gray-300 hover:text-gray-700"
+        >
           <BiLogoFacebook size={18} />
         </a>
         <a
           href="https://www.instagram.com/"
           target="_blank"
           rel="noreferrer"
-          className="flex justify-center items-center w-9 h-9 bg-gray-700 text-gray-300 rounded-full transition duration-300 hover:bg-gray-300 hover:text-gray-700">
+          className="flex justify-center items-center w-9 h-9 bg-gray-700 text-gray-300 rounded-full transition duration-300 hover:bg-gray-300 hover:text-gray-700"
+        >
           <BiLogoInstagram size={18} />
         </a>
         <a
           href="https://www.linkedin.com/"
           target="_blank"
           rel="noreferrer"
-          className="flex justify-center items-center w-9 h-9 bg-gray-700 text-gray-300 rounded-full transition duration-300 hover:bg-gray-300 hover:text-gray-700">
+          className="flex justify-center items-center w-9 h-9 bg-gray-700 text-gray-300 rounded-full transition duration-300 hover:bg-gray-300 hover:text-gray-700"
+        >
           <BiLogoLinkedin size={18} />
         </a>
         <a
