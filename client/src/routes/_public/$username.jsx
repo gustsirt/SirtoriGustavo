@@ -32,7 +32,7 @@ function UserPage () {
 
   return (
     <Frame redirect={'/'} css={"w-9/12"}>
-      { (user.username === currentUser.username) ? <BiEditAlt/> : null}
+      { (user.username === currentUser?.username) ? <BiEditAlt/> : null}
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         {/* Encabezado con imagen */}
         <div className="bg-insight-blue flex justify-center p-6">
