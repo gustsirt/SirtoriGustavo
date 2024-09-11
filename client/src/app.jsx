@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { routeTree } from './routeTree.gen'
 import './index.css'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { Spinner } from './modules/layout/Spinner'
+import { Spinner } from './modules/layout/frame/Spinner'
 import { useAppStore } from './store/useAppStore'
 
 export const queryClient = new QueryClient()

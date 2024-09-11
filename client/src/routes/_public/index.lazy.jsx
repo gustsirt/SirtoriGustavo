@@ -1,6 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import AssociateCard from '../../modules/others/AssociateCard';
 import { useGetAssociates } from '../../apis/users.services';
+import Frame from '../../modules/layout/frame/Frame';
+import AssociateCard from '../../modules/user/AssociateCard';
 
 export const Route = createLazyFileRoute('/_public/')({
   component: Home,
@@ -16,7 +17,7 @@ function Home() {
   if (!associates || associates.length === 0) { return <span>No hay asociados disponibles</span>; }
 
   return (
-    <div className="container mx-auto py-8">
+    <Frame>
       <h1 className="text-3xl font-bold text-center mb-8">Asociados</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {associates.map((associate) => (
@@ -27,10 +28,9 @@ function Home() {
             title={"--- Agregar titulo ---"}
             bio={associate.bio}
             profileImage={associate.photo}
-            contact={associate.email}
           />
         ))}
       </div>
-    </div>
+    </Frame>
   );
 }

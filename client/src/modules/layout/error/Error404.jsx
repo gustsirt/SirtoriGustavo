@@ -1,6 +1,6 @@
 import React from 'react'
-import NavBar from './Navbar'
-import LayoutFooter from './LayoutFooter'
+import NavBar from '../navbar/Navbar'
+import LayoutFooter from '../frame/LayoutFooter'
 
 const Error404 = () => {
   const auth = !!localStorage.getItem('token')

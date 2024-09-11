@@ -1,5 +1,5 @@
-import { useAppStore } from "../../store/useAppStore";
-import { crearURLCompleta } from "../others/urifoto";
+import { useAppStore } from "../../../store/useAppStore";
+import { crearURLCompleta } from "../../others/urifoto";
 
 export default function NavUser() {
   const { currentUser } = useAppStore();

@@ -17,13 +17,18 @@ const createUserSlice = (set, get) => ({
   },
 
   currentUser: null,
+  currentUserName:null,
+
   setUser: (user) => set({ currentUser: user }),
 
   getUser: async () => {
     const user = await axiosInstance("/v1/users/current")
     
     if (!user.data.isError) {
-      set({ currentUser: user.data.data })
+      set({
+        currentUser: user.data.data,
+        currentUserName: user.data.data.username,
+      })
     } else {
       console.error('Error fetching user data:', user.data.message);
     }
