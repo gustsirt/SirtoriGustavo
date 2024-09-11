@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import AssociateCard from '../../modules/others/AssociateCard';
 import { useGetAssociates } from '../../apis/users.services';
 import Frame from '../../modules/layout/frame/Frame';
+import AssociateCard from '../../modules/user/AssociateCard';
 
 export const Route = createLazyFileRoute('/_public/')({
   component: Home,
@@ -28,7 +28,6 @@ function Home() {
             title={"--- Agregar titulo ---"}
             bio={associate.bio}
             profileImage={associate.photo}
-            contact={associate.email}
           />
         ))}
       </div>

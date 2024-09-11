@@ -16,7 +16,7 @@ function AssociateCard({ name, username, title, bio, profileImage, contact }) {
           <p className="text-gray-600 text-sm mt-2">{bio}</p>
         </div>
         <div className="px-6 pt-4 pb-2">
-          <a href={`mailto:${contact}`} className="text-indigo-600 hover:text-indigo-900">Contactar</a>
+          <p className="text-indigo-600 hover:text-indigo-900 text-center">Ver más</p>
         </div>
       </div>
     </Link>
