@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BiLogoGmail, BiLogoLinkedin } from 'react-icons/bi'
 
 const UserData = ({user, itsMyProfile }) => {
@@ -29,9 +29,13 @@ const UserData = ({user, itsMyProfile }) => {
 
   CAMBIAR PASSWORD
   ! password:    { type: String,   required: true },
-
-
    */
+
+  const [editingField, setEditingField] = useState(null);
+  const openEditModal = (field) => {
+    setEditingField(field);
+  };
+
   return (
     <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
       {(user.email && user.public) && (
