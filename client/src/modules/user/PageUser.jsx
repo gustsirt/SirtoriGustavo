@@ -1,98 +1,32 @@
 import { Link } from '@tanstack/react-router';
 import React from 'react'
-import { BiEditAlt, BiLogoGmail, BiLogoLinkedin } from 'react-icons/bi'
+import { BiEditAlt } from 'react-icons/bi'
 import { useAppStore } from '../../store/useAppStore';
+import UserData from './PageUser/UserData';
+import Header from './PageUser/Header';
+import ContactButton from './PageUser/ContactButton';
 
 const PageUser = ({user}) => {
   const { currentUserName } = useAppStore()
+  const itsMyProfile = user.username === currentUserName
+  console.log("itsMyProfile: ", itsMyProfile);
+  
   return (
     <>
-    { ( user.username === currentUserName ) ? <BiEditAlt/> : null}
+    { ( itsMyProfile ) ? <BiEditAlt/> : null}
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         {/* Encabezado con imagen */}
-        <div className="bg-insight-blue flex justify-center p-6">
-          <img
-            className="w-24 h-24 rounded-full border-4 border-white"
-            src={user.photo || "https://via.placeholder.com/100"}
-            alt={`${user.full_name}`}
-          />
-        </div>
+        <Header user={user} itsMyProfile={itsMyProfile} />
 
         {/* Información de usuario */}
         <div className="px-6 py-4">
-          <h2 className="text-3xl font-semibold text-insight-dark text-center">
-            {user.full_name}
-          </h2>
-
-          { user.public && (<p>Publico: {user.public && "si" }</p>)}
 
           {/* Información adicional - la información de contacto solo se muestra si es publico*/}
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-            {(user.email && user.public) && (
-              <div className="flex flex-col">
-                <span className="text-insight-dark text-sm font-semibold flex items-center">
-                  <BiLogoGmail size={18} className="mr-2" />Email:
-                </span>
-                <a href={`mailto:${user.email}`} target="_blank" rel="noreferrer"
-                  className="text-gray-700 hover:text-gray-900 transition duration-300">
-                  {user.email}
-                </a>
-              </div>
-            )}
-
-            {(user.phone && user.public) && (
-              <div className="flex flex-col">
-                <span className="text-insight-dark text-sm font-semibold">Teléfono:</span>
-                <span className="text-gray-700">{user.phone}</span>
-              </div>
-            )}
-
-            {user.birthday && (
-              <div className="flex flex-col">
-                <span className="text-insight-dark text-sm font-semibold">Cumpleaños:</span>
-                <span className="text-gray-700">{new Date(user.birthday).toLocaleDateString()}</span>
-              </div>
-            )}
-
-            {(user.linkedinId && user.public) && (
-              <div className="flex flex-col">
-                <span className="text-insight-dark text-sm font-semibold flex items-center">
-                <BiLogoLinkedin size={18} className="mr-2" />LinkedIn:
-                </span>
-                <a href={`https://linkedin.com/in/${user.linkedinId}`} target="_blank" className="text-insight-blue">
-                  {user.linkedinId}
-                </a>
-                
-              </div>
-            )}
-
-            {user.created && (
-              <div className="flex flex-col">
-                <span className="text-insight-dark text-sm font-semibold">Miembro desde:</span>
-                <span className="text-gray-700">{new Date(user.created).toLocaleDateString()}</span>
-              </div>
-            )}
-
-            {user.connection && (
-              <div className="flex flex-col">
-                <span className="text-insight-dark text-sm font-semibold">Última conexión:</span>
-                <span className="text-gray-700">{new Date(user.connection).toLocaleDateString()}</span>
-              </div>
-            )}
-          </div>
+          <UserData user={user} itsMyProfile={itsMyProfile} />
         </div>
 
         {/* Botón de contacto (opcional) */}
-        {user.public && (
-          <div className="px-6 py-4 flex justify-center">
-            <Link
-              to={`/contact/${user.username}`}
-              className="bg-primary text-white font-bold py-2 px-4 rounded hover:bg-insight-dark transition duration-300"
-            >
-              Contactar
-            </Link>
-          </div>
-        )}
+        <ContactButton user={user} itsMyProfile={itsMyProfile} />
       </div>
     </>
   )
