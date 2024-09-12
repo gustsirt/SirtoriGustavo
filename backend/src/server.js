@@ -10,13 +10,16 @@ import initializePassport from './modules/auth/config/passport.config.js';
 import passport from 'passport';
 import appRouter from './config/routes.js'
 import handleErrors from './middleware/handleErrors.js';
+import dotenv from 'dotenv';
+
+dotenv.config()
 
 // App initialization ------------------------------
 const app = express();
 app.use(cors({origin:configEnv.cors_origin}));
 
 // App Configurations --------------------------------
-const port = configEnv.port || 8080;
+const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')))
