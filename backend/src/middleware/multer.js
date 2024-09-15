@@ -4,12 +4,12 @@ import __dirname from '../libraries/utils/dirname.js'
 import AppError from '../config/AppError.js'
 
 export const uploader = (folder, maxSize, type) => multer({
-    storage: multer.diskStorage({
+    storage: multer.diskStorage({        
         destination: (req, file, cb) => {
             cb(null, path.join(`public/assets/${folder}`))
         },
         filename: (req, file, cb) => {
-            cb(null, Date.now() + file.originalname)
+            cb(null, `${req.user.family_name}_${Date.now()}.${file.originalname.split('.')[1]}`)
         }
     }),
     limits: {

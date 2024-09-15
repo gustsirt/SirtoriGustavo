@@ -41,7 +41,7 @@ export default class Controller extends CustomController {
   uploadPhoto = async (req, res, next) => {
     try {
       const filePath = req.file ? req.file.path.split('public').join('') : null
-      await this.service.updatePhoto(req.user.id, filePath)
+      await this.service.updatePhoto(req.user._id, filePath)
       res.sendSuccess("Photo uploaded")
     } catch (error) {
       next(error)
