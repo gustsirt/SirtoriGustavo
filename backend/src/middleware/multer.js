@@ -3,6 +3,15 @@ import path from 'node:path'
 import __dirname from '../libraries/utils/dirname.js'
 import AppError from '../config/AppError.js'
 
+/**
+ * Configuración de Multer para almacenamiento en disco o memoria
+ * @param {string} folder - Carpeta donde almacenar el archivo en caso de ser en disco
+ * @param {number} maxSize - Tamaño máximo permitido del archivo en MB
+ * @param {Array} type - Tipos de archivos permitidos (ej: ['image/jpeg', 'image/png'])
+ * @param {boolean} useMemoryStorage - Define si se debe usar almacenamiento en memoria
+ */
+
+// almacena archivo en el disco
 export const uploader = (folder, maxSize, type) => multer({
     storage: multer.diskStorage({        
         destination: (req, file, cb) => {
@@ -24,3 +33,5 @@ export const uploader = (folder, maxSize, type) => multer({
         }
     }
 })
+
+// toma el archivo y lo guarda en memoria temporal para pasarlo al siguiente proceso
