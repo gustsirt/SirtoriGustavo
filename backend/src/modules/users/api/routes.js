@@ -2,7 +2,6 @@ import { Router } from "express";
 import Controller from "./controller.js";
 import { clients, handleAuth, users } from "../../../middleware/handlePolicies.js";
 import { uploader } from "../../../middleware/multer.js";
-import validSchema from "./validation.js";
 import { celebrate } from "celebrate";
 
 const router = Router();
@@ -20,7 +19,7 @@ router
 .put    ('/current/update', handleAuth(users),   controller.currentUpdate)
 .put    ('/current/uploadphoto',  
   handleAuth(users), 
-  uploader('profiles', 5, ['image/jpeg', 'image/png']).single('photo'),
+  uploader(5, ['image/jpeg', 'image/png'], true).single('photo'),
   controller.uploadPhoto)
   
 // Admins
