@@ -36,7 +36,7 @@ Bienvenido a la guía de trabajo para los asociados. Esta plataforma está dise�
 ## Registro y Configuración Inicial
 
 ### Crear una cuenta
-1. Accede a la página de [registro](https://www.ejemplo.com/registro).
+1. Accede a la página de [registro]
 2. Completa el formulario con tu información personal.
 3. Verifica tu dirección de correo electrónico.
 4. Inicia sesión y accede a tu panel de control.
