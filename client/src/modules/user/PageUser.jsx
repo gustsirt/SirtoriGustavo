@@ -6,6 +6,7 @@ import UserData from './PageUser/UserData';
 import Header from './PageUser/Header';
 import ContactButton from './PageUser/ContactButton';
 import Section from '../layout/frame/Section';
+import Proyects from './PageUser/Proyects';
 
 const PageUser = ({user}) => {
   const { currentUserName } = useAppStore()
@@ -34,6 +35,7 @@ const PageUser = ({user}) => {
         {/* Botón de contacto (opcional) */}
         <ContactButton user={user} itsMyProfile={itsMyProfile} />
       </Section> 
+      <Proyects/>
     </>
   )
 }
