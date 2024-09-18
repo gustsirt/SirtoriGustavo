@@ -19,7 +19,7 @@ router
 .put    ('/current/update', handleAuth(users),   controller.currentUpdate)
 .put    ('/current/uploadphoto',  
   handleAuth(users), 
-  uploader(5, ['image/jpeg', 'image/png'], true).single('photo'),
+  uploader(5, ['image/jpeg', 'image/jpg', 'image/png'], true).single('photo'),
   controller.uploadPhoto)
   
 // Admins
