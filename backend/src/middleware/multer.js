@@ -46,7 +46,7 @@ export const uploader = (maxSize, type, useMemoryStorage = true, folder = "profi
         },
         filename: (req, file, cb) => {
             const extension = path.extname(file.originalname);
-            cb(null, `${req.user.family_name}_${Date.now()}${extension}`);
+            cb(null, `${req.user._id}${extension}`);
         }
     });
 
