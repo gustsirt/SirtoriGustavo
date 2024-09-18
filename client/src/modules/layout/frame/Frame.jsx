@@ -2,12 +2,13 @@ import React from 'react'
 import BackButton from '../components/BackButton'
 
 const Frame = ({ children , redirect, css}) => {
-  if (css == undefined) {css = "w-fit"}
+  if (!css) css = 'w-full max-w-4xl';
+
   return (
-    <div className="relative">
-      { redirect ? <BackButton to={ redirect }/> : null}
-      <div className="bg-gray-100 min-h-screen py-10">
-        <div className={`mx-auto p-8 bg-white shadow-lg rounded-lg overflow-hidden ${css}`}>
+    <div className="relative min-h-screen bg-gray-50">
+      {redirect && <BackButton to={redirect} />}
+      <div className="py-10">
+        <div className={`mx-auto p-8 bg-white shadow-xl rounded-lg overflow-hidden ${css}`}>
           {children }
         </div>
       </div>

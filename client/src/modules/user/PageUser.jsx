@@ -5,19 +5,25 @@ import { useAppStore } from '../../store/useAppStore';
 import UserData from './PageUser/UserData';
 import Header from './PageUser/Header';
 import ContactButton from './PageUser/ContactButton';
+import Section from '../layout/frame/Section';
 
 const PageUser = ({user}) => {
   const { currentUserName } = useAppStore()
   const itsMyProfile = user.username === currentUserName
   console.log("itsMyProfile: ", itsMyProfile);
   
+  //<div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
   return (
     <>
     { ( itsMyProfile ) ? <BiEditAlt/> : null}
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    
+      <Section>
         {/* Encabezado con imagen */}
         <Header user={user} itsMyProfile={itsMyProfile} />
+      </Section>
 
+      {/* Sección con información del usuario */}
+      <Section>   
         {/* Información de usuario */}
         <div className="px-6 py-4">
 
@@ -27,7 +33,7 @@ const PageUser = ({user}) => {
 
         {/* Botón de contacto (opcional) */}
         <ContactButton user={user} itsMyProfile={itsMyProfile} />
-      </div>
+      </Section> 
     </>
   )
 }
