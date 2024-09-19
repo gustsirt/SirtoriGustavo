@@ -7,6 +7,7 @@ import Header from './PageUser/Header';
 import ContactButton from './PageUser/ContactButton';
 import Section from '../layout/frame/Section';
 import Proyects from './PageUser/Proyects';
+import Experience from './PageUser/Experience';
 
 const PageUser = ({user}) => {
   const { currentUserName } = useAppStore()
@@ -36,6 +37,7 @@ const PageUser = ({user}) => {
         <ContactButton user={user} itsMyProfile={itsMyProfile} />
       </Section> 
       <Proyects/>
+      <Experience/>
     </>
   )
 }
