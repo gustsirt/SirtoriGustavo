@@ -4,12 +4,17 @@ import { z } from 'zod';
 
 const Proyects = () => {
   const [data, setData] = useState({
+    email: 'john.doe@example.comm',
     name: 'John Doe',
-    email: 'john.doe@example.comm'
+    birthday: 'John Doe',
+    linkedinId: 'John Doe',
+    created: 'John Doe',
+    connection: 'John Doe',
   })
+
   const fields = [
     { name: "name", label: "Nombre", type: "text", validation: z.string().min(3, "El nombre debe tener al menos 3 caracteres") },
-    { name: "email", label: "Email", type: "email", validation: z.string().email("Debe ser un email válido") }
+    { name: "email", label: "Email", type: "email", validation: z.string().email("Debe ser un email válido"), private: true }
   ];
 
   return (
@@ -17,7 +22,8 @@ const Proyects = () => {
       title="HACIENDO SECTION WITH FORM"
       data={data}
       setData={setData}
-      isEditable={true}
+      isEditable={false}
+      isPublic={true}
       fields={fields}
       >
     </SectionWForm>
