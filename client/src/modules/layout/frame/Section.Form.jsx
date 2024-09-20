@@ -5,21 +5,25 @@ import Modal from './Modal';
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
-const SectionWForm = ({ title, css, data, setData }) => {
+const SectionWForm = ({ title, css, data, setData, fields  }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Esquema de validación Zod
-  const schema = z.object({
-    name: z.string().min(3, "El nombre debe tener al menos 3 caracteres"),
-    email: z.string().email("Debe ser un email válido")
-  });
-
+  // Generar dinámicamente el esquema de validación basado en los campos
+  const dynamicSchema = z.object(
+    fields.reduce((acc, field) => {
+      if (field.validation) {
+        acc[field.name] = field.validation;
+      }
+      return acc;
+    }, {})
+  );
+  
   // Configuración de Tanstack Form
   const form = useForm({
     defaultValues: data,
-    validatorAdapter: zodValidator(schema),
+    validatorAdapter: zodValidator(dynamicSchema),
     validators: {
-      onChange: schema
+      onChange: dynamicSchema
     },
     onSubmit: ({value}) => {
       console.log(value)
@@ -42,53 +46,40 @@ const SectionWForm = ({ title, css, data, setData }) => {
           </button>
         </div>
 
-        {/* Aquí mostramos los datos pasados por props */}
+        {/* Aquí mostramos los datos pasados por props dinámicamente */}
         <div>
-          <p><strong>Nombre:</strong> {data.name}</p>
-          <p><strong>Email:</strong> {data.email}</p>
+        {fields.map(field => (
+            <p key={field.name}>
+              <strong>{field.label}:</strong> {data[field.name]}
+            </p>
+          ))}
         </div>
       </div>
 
-      {/* Modal con formulario */}
+      {/* Modal con formulario dinámico */}
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} title={`Editar ${title}`}>
       <form onSubmit={(e) => {
         e.preventDefault();
-        // e.stopPropagation();
         form.handleSubmit();
       }}>
-          {/* Inputs del formulario, Tanstack Form */}
-          <form.Field name="name"
-            children={(field) => (
-              <div className="my-3">
-                <label htmlFor={field.name} className="block mb-2">
-                  Nombre:
-                </label>
-                <input
-                  id={field.name}
-                  name={field.name}
-                  type="text"
-                  value={field.state.value}
-                  className={`w-full border p-2 rounded mb-1 ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'}`}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
-              </div>
-            )}
-          />
-          <form.Field name="email"
-            children={(field) => (
-              <div className="my-3">
-                <label htmlFor={field.name} className="block mb-2">Email:</label>
-                <input
-                  id={field.name}
-                  name={field.name}
-                  type="email"
-                  value={field.state.value}
-                  className={`w-full border p-2 rounded mb-1 ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'}`}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
-              </div>
-            )}
-          />
+          {/* Inputs del formulario generados dinámicamente */}
+          {fields.map((fieldUnit) => (
+            <form.Field key={fieldUnit.name} name={fieldUnit.name}
+              children={(field) => (
+                <div className="my-3">
+                  <label htmlFor={field.name} className="block mb-2">{fieldUnit.label}:</label>
+                  <input
+                    id={field.name}
+                    name={field.name}
+                    type={field.type || "text"}
+                    value={field.state.value}
+                    className={`w-full border p-2 rounded mb-1 ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'}`}
+                    onChange={(e) => handleChange(e.target.value)}
+                  />
+                </div>
+              )}
+            />
+          ))}
           {/* Alertas Errores, Tanstack Form */}
           <form.Subscribe
             selector={(state) => state.errors}
