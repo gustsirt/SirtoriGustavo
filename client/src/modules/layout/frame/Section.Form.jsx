@@ -7,6 +7,7 @@ import { zodValidator } from '@tanstack/zod-form-adapter';
 
 const SectionWForm = ({ title, css, data, setData, fields, isEditable = false, isPublic = true, children }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleData = (dataForm) => {setData({ ...data, ...dataForm})}
 
   // Generar dinámicamente el esquema de validación basado en los campos
   const dynamicSchema = z.object(
@@ -27,7 +28,7 @@ const SectionWForm = ({ title, css, data, setData, fields, isEditable = false, i
     },
     onSubmit: ({value}) => {
       console.log(value)
-      setData(value);
+      handleData(value);
       handleCloseModal();
     }
   })
@@ -35,10 +36,6 @@ const SectionWForm = ({ title, css, data, setData, fields, isEditable = false, i
   const handleEditClick  = () => { setIsModalOpen(true);  };
   const handleCloseModal = () => { setIsModalOpen(false); };
 
-  console.log("email private: ", fields[1].private);
-  console.log("isPublic: ", isPublic);
-  console.log("isEditable: ", isEditable);
-  
   return (
     <>
       {/* Sección principal con datos */}
@@ -75,8 +72,12 @@ const SectionWForm = ({ title, css, data, setData, fields, isEditable = false, i
           e.preventDefault();
           form.handleSubmit();
         }}>
-            {/* Inputs del formulario generados dinámicamente */}
+            {/* Inputs del formulario generados dinámicamente
+                - fieldUnit (fila 79) es el array o modelo de referencia que se pasa
+                - field (fila 82) es el elemento de form.Field (solo tiene nombre y valor)
+            */}
             {fields.map((fieldUnit) => (
+              fieldUnit.noEditable ? null :
               <form.Field key={fieldUnit.name} name={fieldUnit.name}
                 children={(field) => (
                   <div className="my-3">
@@ -84,10 +85,10 @@ const SectionWForm = ({ title, css, data, setData, fields, isEditable = false, i
                     <input
                       id={field.name}
                       name={field.name}
-                      type={field.type || "text"}
+                      type={fieldUnit.type || "text"}
                       value={field.state.value}
                       className={`w-full border p-2 rounded mb-1 ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'}`}
-                      onChange={(e) => handleChange(e.target.value)}
+                      onChange={(e) => field.handleChange(e.target.value)}
                     />
                   </div>
                 )}

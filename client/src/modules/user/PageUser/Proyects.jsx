@@ -4,29 +4,36 @@ import { z } from 'zod';
 
 const Proyects = () => {
   const [data, setData] = useState({
-    email: 'john.doe@example.comm',
-    name: 'John Doe',
-    birthday: 'John Doe',
-    linkedinId: 'John Doe',
-    created: 'John Doe',
-    connection: 'John Doe',
-  })
+    email: 'john.doe@example.com',        // Email del usuario
+    phone: '',                            // Número de teléfono opcional (vacío)
+    //birthday: undefined,                // Fecha de nacimiento opcional (vacío)
+    //linkedinId: 'john-doe-linkedin',    // ID de LinkedIn
+    created: '2023-09-19',                // Fecha de creación (no editable)
+    connection: '2023-09-19',             // Estado de conexión (no editable)
+  });
 
+  // Definición de los campos con validación
   const fields = [
-    { name: "name", label: "Nombre", type: "text", validation: z.string().min(3, "El nombre debe tener al menos 3 caracteres") },
-    { name: "email", label: "Email", type: "email", validation: z.string().email("Debe ser un email válido"), private: true }
+    { name: "email", label: "Email", type: "email", validation: z.string().email("Debe ser un email válido"), private: true },
+    { name: "phone", label: "Teléfono", type: "tel", validation: z.string().min(10, "El teléfono debe tener al menos 10 dígitos").optional() },
+    { name: "birthday", label: "Fecha de Nacimiento", type: "date", validation: z.date().optional},
+    { name: "linkedinId", label: "LinkedIn ID", type: "text", noEditable: true },
+    { name: "created", label: "Fecha de Creación", type: "date", noEditable: true },
+    { name: "connection", label: "Estado de Conexión", type: "date", noEditable: true }
   ];
 
   return (
-    <SectionWForm
-      title="HACIENDO SECTION WITH FORM"
-      data={data}
-      setData={setData}
-      isEditable={false}
-      isPublic={true}
-      fields={fields}
-      >
-    </SectionWForm>
+    <>
+      <SectionWForm
+        title="HACIENDO SECTION WITH FORM"
+        data={data}
+        setData={setData}
+        isEditable={true}
+        isPublic={true}
+        fields={fields}
+        >
+      </SectionWForm>
+    </>
   )
 }
 
