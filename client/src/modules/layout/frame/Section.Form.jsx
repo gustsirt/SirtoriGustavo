@@ -86,14 +86,26 @@ const SectionWForm = ({ title, css, data, setData, fields, isEditable = false, i
                       {fieldUnit.icon && <fieldUnit.icon className={"inline-block mr-2"}/>}
                       {fieldUnit.label}:
                     </label>
-                    <input
-                      id={field.name}
-                      name={field.name}
-                      type={fieldUnit.type || "text"}
-                      value={field.state.value}
-                      className={`w-full border p-2 rounded mb-1 ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'}`}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
+
+                    {/* Renderiza un <textarea> si el tipo es "textarea", sino un <input> */}
+                    {fieldUnit.type === 'textarea' ? (
+                      <textarea
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        className={`w-full border p-2 rounded mb-1 ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'}`}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    ) : (
+                      <input
+                        id={field.name}
+                        name={field.name}
+                        type={fieldUnit.type || "text"}
+                        value={field.state.value}
+                        className={`w-full border p-2 rounded mb-1 ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'}`}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    )}
                   </div>
                 )}
               />

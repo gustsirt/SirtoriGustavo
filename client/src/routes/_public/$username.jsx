@@ -16,8 +16,6 @@ function UserPage () {
   const user = Route.useLoaderData()
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log(user);
-
   useEffect(() => {
     if (user) {
       setIsLoading(false);
