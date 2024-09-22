@@ -55,6 +55,7 @@ const SectionWForm = ({ title, css, data, setData, fields, isEditable = false, i
             // Solo mostrar campos si esEditable (user) o si el campo no es Privado
             !field.private || isPublic || isEditable ? (  
               <p key={field.name}>
+                {field.icon && <field.icon className={"inline-block mr-2"}/>}
                 <strong>{`${field.label}${(field.private && !isPublic) ? " (Privado): ":": "}`}</strong>
                 {data[field.name]}
               </p>
@@ -81,7 +82,10 @@ const SectionWForm = ({ title, css, data, setData, fields, isEditable = false, i
               <form.Field key={fieldUnit.name} name={fieldUnit.name}
                 children={(field) => (
                   <div className="my-3">
-                    <label htmlFor={field.name} className="block mb-2">{fieldUnit.label}:</label>
+                    <label htmlFor={field.name} className="block mb-2">
+                      {fieldUnit.icon && <fieldUnit.icon className={"inline-block mr-2"}/>}
+                      {fieldUnit.label}:
+                    </label>
                     <input
                       id={field.name}
                       name={field.name}

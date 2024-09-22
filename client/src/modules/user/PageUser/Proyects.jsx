@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import SectionWForm from '../../layout/frame/Section.Form';
 import { z } from 'zod';
+import { BiCalendar, BiLogoGmail, BiLogoLinkedin, BiPhone } from 'react-icons/bi';
 
 const Proyects = () => {
   const [data, setData] = useState({
@@ -14,12 +15,12 @@ const Proyects = () => {
 
   // Definición de los campos con validación
   const fields = [
-    { name: "email", label: "Email", type: "email", validation: z.string().email("Debe ser un email válido"), private: true },
-    { name: "phone", label: "Teléfono", type: "tel", validation: z.string().min(10, "El teléfono debe tener al menos 10 dígitos").optional() },
-    { name: "birthday", label: "Fecha de Nacimiento", type: "date", validation: z.date().optional},
-    { name: "linkedinId", label: "LinkedIn ID", type: "text", noEditable: true },
-    { name: "created", label: "Fecha de Creación", type: "date", noEditable: true },
-    { name: "connection", label: "Estado de Conexión", type: "date", noEditable: true }
+    { name: "email", label: "Email", icon:BiLogoGmail, type: "email", validation: z.string().email("Debe ser un email válido"), private: true },
+    { name: "phone", label: "Teléfono", icon: BiPhone, type: "tel", validation: z.string().min(10, "El teléfono debe tener al menos 10 dígitos").optional() },
+    { name: "birthday", label: "Fecha de Nacimiento", icon: BiCalendar, type: "date", validation: z.date().optional},
+    { name: "linkedinId", label: "LinkedIn ID", icon: BiLogoLinkedin,  type: "text", noEditable: true },
+    { name: "created", label: "Fecha de Creación", icon: BiCalendar,  type: "date", noEditable: true },
+    { name: "connection", label: "Estado de Conexión", icon: BiCalendar,  type: "date", noEditable: true }
   ];
 
   return (
