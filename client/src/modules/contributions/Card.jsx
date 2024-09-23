@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'; // También puedes usar otras variantes como 'atom-one-dark'
 import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism'; // Escoge el tema que prefieras
 import { BiCopy } from 'react-icons/bi';
+import { alertMessage } from '../alerts/alerts';
 
 const Card = ({ item }) => {
   const [showCode, setShowCode] = useState(false);
@@ -10,7 +11,7 @@ const Card = ({ item }) => {
   // Función para copiar el código al portapapeles
   const handleCopy = () => {
     navigator.clipboard.writeText(item.code);
-    alert('Código copiado al portapapeles');
+    alertMessage('Código copiado al portapapeles', "success", 1);
   };
 
   return (

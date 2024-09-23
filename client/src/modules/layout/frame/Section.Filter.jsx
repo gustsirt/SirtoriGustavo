@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import ElementList from "./SectionWFilter/Elements";
 import FilterSection from "./SectionWFilter/Filters";
 
-const SectionWFilters = ({ data, filters, Card }) => {
+const SectionWFilters = ({ data, filters, Card, isFilterPending, isElementPending }) => {
   const [filteredData, setFilteredData] = useState(data);
   const [activeFilters, setActiveFilters] = useState({});
 
@@ -23,10 +23,14 @@ const SectionWFilters = ({ data, filters, Card }) => {
 
       Object.keys(activeFilters).forEach((filterKey) => {
         const filterValue = activeFilters[filterKey];
+
         if (filterValue) {
-          filtered = filtered.filter((item) =>
-            item[filterKey]?.toLowerCase().includes(filterValue.toLowerCase())
-          );
+          filtered = filtered.filter((item) => {
+            const itemValue = item[filterKey];
+            
+            // Comparamos los valores directamente sin usar toLowerCase
+            return itemValue && itemValue.includes(filterValue);
+          });
         }
       });
       setFilteredData(filtered);
@@ -39,12 +43,12 @@ const SectionWFilters = ({ data, filters, Card }) => {
     <div className="flex">
       {/* Sección de filtros */}
       <div className="w-1/4 p-4 border-r border-gray-200">
-        <FilterSection filters={filters} onFilterChange={handleFilterChange} />
+        <FilterSection filters={filters} onFilterChange={handleFilterChange} isPending={isFilterPending}/>
       </div>
 
       {/* Sección de elementos */}
       <div className="w-3/4 p-4">
-        <ElementList data={filteredData} Card={Card} />
+        <ElementList data={filteredData} Card={Card} isPending={isElementPending}/>
       </div>
     </div>
   );

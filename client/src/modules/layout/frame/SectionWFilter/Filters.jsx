@@ -1,6 +1,9 @@
 import React from "react";
 
-const FilterSection = ({ filters, onFilterChange }) => {
+const FilterSection = ({ filters, onFilterChange, isPending }) => {
+
+  if (isPending) { return <div className="text-center text-gray-500">Cargando...</div>; }
+
   return (
     <div>
       {filters.map((filter) => (

@@ -1,6 +1,9 @@
 import React from "react";
 
-const ElementList = ({ data, Card }) => {
+const ElementList = ({ data, Card, isPending }) => {
+
+  if (isPending) { return <div className="text-center text-gray-500">Cargando...</div>; }
+
   return (
     <div>
       {data.length === 0 ? (
