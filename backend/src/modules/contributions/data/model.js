@@ -26,6 +26,15 @@ const ContributionSchema = new Schema({
   },
 })
 
+ContributionSchema.pre('find', function (next) {
+  this
+    .populate({
+      path: 'contributedBy',
+      select: '_id full_name'
+    })
+  next();
+})
+
 const dataModel = model('contributions', ContributionSchema)
 
 export default dataModel
