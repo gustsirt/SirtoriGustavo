@@ -47,7 +47,11 @@ export default class Controller extends CustomController {
       if (!req.file) { new AppError("No file provided", 400) }
 
       // Opciones comunes para la carpeta en Cloudinary
-      const options = {folder: "users"}
+      const options = {
+        folder: "users",
+        public_id: `${req.user._id}`,
+        overwrite: true // Habilitar sobrescritura de archivos
+      }
 
       // Verificar si el archivo está almacenado en memoria o en disco
       // Si el archivo está en memoria (buffer), subirlo directamente

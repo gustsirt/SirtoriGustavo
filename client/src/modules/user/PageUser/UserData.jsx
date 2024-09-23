@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { BiLogoGmail, BiLogoLinkedin } from 'react-icons/bi'
+import { BiCalendar, BiLogoGmail, BiLogoLinkedin, BiPhone } from 'react-icons/bi'
+import SectionWForm from '../../layout/frame/Section.Form';
+import { z } from 'zod';
+import ContactButton from './ContactButton';
 
 const UserData = ({user, itsMyProfile }) => {
   /*
@@ -8,11 +11,9 @@ const UserData = ({user, itsMyProfile }) => {
   family_name: { type: String,   required: true, maxLength: 50 },
   full_name:   { type: String,   },
   ! username:    { type: String,   unique: true  },
-  birthday:            Date,
   ! public:      { type: Boolean,   default: true},
-
-  CONFIGURAR APARTE
-  bio:                 String,
+  CAMBIAR PASSWORD
+  ! password:    { type: String,   required: true },
 
   DEJAR PARA DESPUES
   photo:               String,
@@ -20,76 +21,41 @@ const UserData = ({user, itsMyProfile }) => {
   USE DATA NO VISUAL
   * document:    { type: String,   maxLength: 15 },
   * documenttype:{ type: String,   enum: DOCTYPE },
-  
-  ? email:       { type: String,   required: true, match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Debe completar un email valido'], unique: true },
-  ? phone:       { type: String, maxLength: 20   },
-  ? linkedinId:          String,
-  ? linkedinVerified:    Boolean,
 
-
-  CAMBIAR PASSWORD
-  ! password:    { type: String,   required: true },
    */
 
-  const [editingField, setEditingField] = useState(null);
-  const openEditModal = (field) => {
-    setEditingField(field);
-  };
+  // Datos a pasar
+  const [data, setData] = useState({
+    email: user.email,          // Email del usuario
+    phone: user.phone,          // Número de teléfono opcional
+    birthday: user.birthday,    // Fecha de nacimiento opcional
+    linkedinId: user.linkedinId,// ID de LinkedIn
+    created: user.created,      // Fecha de creación (no editable)
+    connection: user.connection,// Estado de conexión (no editable)
+  });
+
+  // Definición de los campos con validación
+  const fields = [
+    { name: "email", label: "Email", icon:BiLogoGmail, type: "email", validation: z.string().email("Debe ser un email válido"), private: true },
+    { name: "phone", label: "Teléfono", icon: BiPhone, type: "tel", validation: z.string().min(10, "El teléfono debe tener al menos 10 dígitos").optional() },
+    { name: "birthday", label: "Fecha de Nacimiento", icon: BiCalendar, type: "date", validation: z.date().optional},
+    { name: "linkedinId", label: "LinkedIn ID", icon: BiLogoLinkedin,  type: "text", noEditable: true },
+    { name: "created", label: "Fecha de Creación", icon: BiCalendar,  type: "date", noEditable: true },
+    { name: "connection", label: "Estado de Conexión", icon: BiCalendar,  type: "date", noEditable: true }
+  ];
 
   return (
-    <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-      {(user.email && user.public) && (
-        <div className="flex flex-col">
-          <span className="text-insight-dark text-sm font-semibold flex items-center">
-            <BiLogoGmail size={18} className="mr-2" />Email:
-          </span>
-          <a href={`mailto:${user.email}`} target="_blank" rel="noreferrer"
-            className="text-gray-700 hover:text-gray-900 transition duration-300">
-            {user.email}
-          </a>
-        </div>
-      )}
-
-      {(user.phone && user.public) && (
-        <div className="flex flex-col">
-          <span className="text-insight-dark text-sm font-semibold">Teléfono:</span>
-          <span className="text-gray-700">{user.phone}</span>
-        </div>
-      )}
-
-      {user.birthday && (
-        <div className="flex flex-col">
-          <span className="text-insight-dark text-sm font-semibold">Cumpleaños:</span>
-          <span className="text-gray-700">{new Date(user.birthday).toLocaleDateString()}</span>
-        </div>
-      )}
-
-      {(user.linkedinId && user.public) && (
-        <div className="flex flex-col">
-          <span className="text-insight-dark text-sm font-semibold flex items-center">
-          <BiLogoLinkedin size={18} className="mr-2" />LinkedIn:
-          </span>
-          <a href={`https://linkedin.com/in/${user.linkedinId}`} target="_blank" className="text-insight-blue">
-            {user.linkedinId}
-          </a>
-          
-        </div>
-      )}
-
-      {user.created && (
-        <div className="flex flex-col">
-          <span className="text-insight-dark text-sm font-semibold">Miembro desde:</span>
-          <span className="text-gray-700">{new Date(user.created).toLocaleDateString()}</span>
-        </div>
-      )}
-
-      {user.connection && (
-        <div className="flex flex-col">
-          <span className="text-insight-dark text-sm font-semibold">Última conexión:</span>
-          <span className="text-gray-700">{new Date(user.connection).toLocaleDateString()}</span>
-        </div>
-      )}
-  </div>
+    <SectionWForm
+      title="Datos Personales"
+      data={data}
+      setData={setData}
+      isEditable={true}
+      isPublic={true}
+      fields={fields}
+      >
+      {/* Botón de contacto (opcional) */}
+      <ContactButton user={user} itsMyProfile={itsMyProfile} />
+    </SectionWForm>
   )
 }
 

@@ -1,5 +1,5 @@
 import { Joi, Segments } from 'celebrate';
-import { DOCTYPE } from '../../valueList.js';
+import { DOCTYPE } from '../../utils/valueList.js';
 
 const validSchema = {
   register: {
