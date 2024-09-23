@@ -20,6 +20,7 @@ import { Route as PublicLoginImport } from './routes/_public/login'
 import { Route as PublicUsernameImport } from './routes/_public/$username'
 import { Route as PrivatePrivateImport } from './routes/_private/private'
 import { Route as PrivateLogoutImport } from './routes/_private/logout'
+import { Route as PrivateContributionsImport } from './routes/_private/contributions'
 
 // Create Virtual Routes
 
@@ -67,6 +68,11 @@ const PrivateLogoutRoute = PrivateLogoutImport.update({
   getParentRoute: () => PrivateRoute,
 } as any)
 
+const PrivateContributionsRoute = PrivateContributionsImport.update({
+  path: '/contributions',
+  getParentRoute: () => PrivateRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -84,6 +90,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof PublicImport
       parentRoute: typeof rootRoute
+    }
+    '/_private/contributions': {
+      id: '/_private/contributions'
+      path: '/contributions'
+      fullPath: '/contributions'
+      preLoaderRoute: typeof PrivateContributionsImport
+      parentRoute: typeof PrivateImport
     }
     '/_private/logout': {
       id: '/_private/logout'
@@ -134,6 +147,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   PrivateRoute: PrivateRoute.addChildren({
+    PrivateContributionsRoute,
     PrivateLogoutRoute,
     PrivatePrivateRoute,
   }),
@@ -160,6 +174,7 @@ export const routeTree = rootRoute.addChildren({
     "/_private": {
       "filePath": "_private.jsx",
       "children": [
+        "/_private/contributions",
         "/_private/logout",
         "/_private/private"
       ]
@@ -172,6 +187,10 @@ export const routeTree = rootRoute.addChildren({
         "/_public/register",
         "/_public/"
       ]
+    },
+    "/_private/contributions": {
+      "filePath": "_private/contributions.jsx",
+      "parent": "/_private"
     },
     "/_private/logout": {
       "filePath": "_private/logout.jsx",
