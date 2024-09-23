@@ -1,5 +1,5 @@
 import { Schema, model} from 'mongoose'
-import { DOCTYPE, ROLES, } from '../../valueList.js';
+import { DOCTYPE, ROLES, } from '../../utils/valueList.js';
 
 const userSchema = new Schema({
   // basic properties
