@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import ElementList from "./SectionWFilter/Elements";
 import FilterSection from "./SectionWFilter/Filters";
 
-const SectionWFilters = ({ data, filters, Card, isFilterPending, isElementPending }) => {
+const SectionWFilters = ({ title, data, filters, Card, isFilterPending, isElementPending }) => {
   const [filteredData, setFilteredData] = useState(data);
   const [activeFilters, setActiveFilters] = useState({});
 
@@ -40,17 +40,20 @@ const SectionWFilters = ({ data, filters, Card, isFilterPending, isElementPendin
   }, [activeFilters, data]);
 
   return (
-    <div className="flex">
-      {/* Sección de filtros */}
-      <div className="w-1/4 p-4 border-r border-gray-200">
-        <FilterSection filters={filters} onFilterChange={handleFilterChange} isPending={isFilterPending}/>
-      </div>
+    <>
+      <h2 className="text-3xl font-semibold mb-2">{title}</h2>
+      <div className="flex">
+        {/* Sección de filtros */}
+        <div className="w-1/4 p-4 border-r border-gray-200">
+          <FilterSection filters={filters} onFilterChange={handleFilterChange} isPending={isFilterPending}/>
+        </div>
 
-      {/* Sección de elementos */}
-      <div className="w-3/4 p-4">
-        <ElementList data={filteredData} Card={Card} isPending={isElementPending}/>
+        {/* Sección de elementos */}
+        <div className="w-3/4 p-4">
+          <ElementList data={filteredData} Card={Card} isPending={isElementPending}/>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

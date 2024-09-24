@@ -58,13 +58,16 @@ useEffect(() => {
   if (error) { return <div className="text-center text-gray-500">Error: {error}</div>; }
 
   return (
-    <Frame css={'w-full mx-5'}>
-      <SectionWFilters
-        data={contributions}
-        filters={filters}
-        Card={Card}
-        isFilterPending={isFilterLoading}
-      />
-    </Frame>
+    <>
+      <Frame css={'w-full mx-5'}>
+        <SectionWFilters
+          title={"Contribuciones"}
+          data={contributions}
+          filters={filters}
+          Card={Card}
+          isFilterPending={isFilterLoading}
+        />
+      </Frame>
+    </>
   );
 }
