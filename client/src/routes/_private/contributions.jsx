@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Frame from '../../modules/layout/frame/Frame';
 import SectionWFilters from '../../modules/layout/frame/Section.Filter';
 import Card from '../../modules/contributions/Card';
+import { useAppStore } from '../../store/useAppStore';
 
 export const Route = createFileRoute('/_private/contributions')({
   loader: async () => {
@@ -19,10 +20,9 @@ function ContributionsPage () {
   const [professions, setProfessions] = useState();
   const [isFilterLoading, setIsFilterLoading] = useState(false);
   const [error, setError] = useState(false);
+  const { currentUser } = useAppStore();
   console.log(contributions);
 
-console.log("dataLn: ",languages)
-console.log("dataPr: ",professions)
 
   // Esperar Datos
   useEffect(() => {
@@ -66,6 +66,7 @@ useEffect(() => {
           filters={filters}
           Card={Card}
           isFilterPending={isFilterLoading}
+          currentUserId = {currentUser._id}
         />
       </Frame>
     </>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'; // También puedes usar otras variantes como 'atom-one-dark'
-import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism'; // Escoge el tema que prefieras
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { BiCopy } from 'react-icons/bi';
 import { alertMessage } from '../alerts/alerts';
 
@@ -18,6 +18,7 @@ const Card = ({ item }) => {
     <div className="p-4 bg-white rounded shadow-lg mx-auto">
       <div className="mb-4">
         <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
+        <p className="text-sm font-bold text-gray-500">Autor: {item.contributedBy.full_name}</p>
         <p className="text-sm text-gray-500">{item.description}</p>
         <p className="text-xl font-bold">Código {language.toUpperCase()}</p>
       </div>
@@ -37,6 +38,7 @@ const Card = ({ item }) => {
           <BiCopy />
           <span>Copiar código</span>
         </button>
+        <button onClick={null} className="px-3 py-2">Editar</button>
       </div>
 
       {showCode && (
