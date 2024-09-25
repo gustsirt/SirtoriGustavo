@@ -18,6 +18,7 @@ import { Route as PrivateImport } from './routes/_private'
 import { Route as PublicRegisterImport } from './routes/_public/register'
 import { Route as PublicLoginImport } from './routes/_public/login'
 import { Route as PublicUsernameImport } from './routes/_public/$username'
+import { Route as PrivateProfileImport } from './routes/_private/profile'
 import { Route as PrivatePrivateImport } from './routes/_private/private'
 import { Route as PrivateLogoutImport } from './routes/_private/logout'
 import { Route as PrivateContributionsImport } from './routes/_private/contributions'
@@ -56,6 +57,11 @@ const PublicLoginRoute = PublicLoginImport.update({
 const PublicUsernameRoute = PublicUsernameImport.update({
   path: '/$username',
   getParentRoute: () => PublicRoute,
+} as any)
+
+const PrivateProfileRoute = PrivateProfileImport.update({
+  path: '/profile',
+  getParentRoute: () => PrivateRoute,
 } as any)
 
 const PrivatePrivateRoute = PrivatePrivateImport.update({
@@ -112,6 +118,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivatePrivateImport
       parentRoute: typeof PrivateImport
     }
+    '/_private/profile': {
+      id: '/_private/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof PrivateProfileImport
+      parentRoute: typeof PrivateImport
+    }
     '/_public/$username': {
       id: '/_public/$username'
       path: '/$username'
@@ -150,6 +163,7 @@ export const routeTree = rootRoute.addChildren({
     PrivateContributionsRoute,
     PrivateLogoutRoute,
     PrivatePrivateRoute,
+    PrivateProfileRoute,
   }),
   PublicRoute: PublicRoute.addChildren({
     PublicUsernameRoute,
@@ -176,7 +190,8 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_private/contributions",
         "/_private/logout",
-        "/_private/private"
+        "/_private/private",
+        "/_private/profile"
       ]
     },
     "/_public": {
@@ -198,6 +213,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_private/private": {
       "filePath": "_private/private.jsx",
+      "parent": "/_private"
+    },
+    "/_private/profile": {
+      "filePath": "_private/profile.jsx",
       "parent": "/_private"
     },
     "/_public/$username": {
