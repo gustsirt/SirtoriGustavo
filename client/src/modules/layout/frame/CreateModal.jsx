@@ -6,16 +6,16 @@ import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
 const CreateModal = ({ title, fields}) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState({});
-
+  
   fields = [
     { name: "email", label: "Email", icon:BiLogoGmail, type: "email", validation: z.string().email("Debe ser un email válido"), private: true },
   ];
-
-
-
+  
+  
   // ! aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const isEditable = false 
   const handleData = (dataForm) => {setData({ ...data, ...dataForm})}
 
@@ -43,8 +43,16 @@ const CreateModal = ({ title, fields}) => {
     }
   })
 
-  const handleEditClick  = () => { setIsModalOpen(true);  };
-  const handleCloseModal = () => { setIsModalOpen(false); };
+  // * area ok
+  const handleEditClick  = () => {
+    setIsOpen(true)
+    //setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsOpen(false)
+    //setIsModalOpen(false);
+  };
+  // * area ok
 
   (
     <>
@@ -146,7 +154,7 @@ const CreateModal = ({ title, fields}) => {
     <>
       {/* Sección principal con datos */}
       <button
-          onClick={null}
+          onClick={handleEditClick}
           className="px-3 py-2 bg-blue-500 text-white rounded"
         >
           Contribuir <BiSolidPlusSquare className='inline-block'/>
