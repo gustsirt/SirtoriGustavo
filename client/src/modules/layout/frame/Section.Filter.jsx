@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 // Subcomponentes
 import ElementList from "./SectionWFilter/Elements";
 import FilterSection from "./SectionWFilter/Filters";
+import CreateModal from "./CreateModal";
 
-const SectionWFilters = ({ title, data, filters, Card, isFilterPending, isElementPending }) => {
+const SectionWFilters = ({ title, data, filters, Card, isFilterPending, isElementPending, currentUserId }) => {
   const [filteredData, setFilteredData] = useState(data);
   const [activeFilters, setActiveFilters] = useState({});
 
@@ -41,7 +42,10 @@ const SectionWFilters = ({ title, data, filters, Card, isFilterPending, isElemen
 
   return (
     <>
-      <h2 className="text-3xl font-semibold mb-2">{title}</h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl font-semibold mb-2">{title}</h2>
+        <CreateModal/>
+      </div>
       <div className="flex">
         {/* Sección de filtros */}
         <div className="w-1/4 p-4 border-r border-gray-200">
@@ -50,7 +54,7 @@ const SectionWFilters = ({ title, data, filters, Card, isFilterPending, isElemen
 
         {/* Sección de elementos */}
         <div className="w-3/4 p-4">
-          <ElementList data={filteredData} Card={Card} isPending={isElementPending}/>
+          <ElementList data={filteredData} Card={Card} isPending={isElementPending} currentUserId={currentUserId}/>
         </div>
       </div>
     </>

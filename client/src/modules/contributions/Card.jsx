@@ -4,7 +4,7 @@ import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { BiCopy } from 'react-icons/bi';
 import { alertMessage } from '../alerts/alerts';
 
-const Card = ({ item }) => {
+const Card = ({ item, currentUserId }) => {
   const [showCode, setShowCode] = useState(false);
   const language = item.languages[0].toLowerCase()
 
@@ -38,7 +38,10 @@ const Card = ({ item }) => {
           <BiCopy />
           <span>Copiar código</span>
         </button>
-        <button onClick={null} className="px-3 py-2">Editar</button>
+        
+        {(currentUserId == item.contributedBy._id)
+        ? (<button onClick={null} className="px-3 py-2">Editar</button>)
+        : "no"}
       </div>
 
       {showCode && (
