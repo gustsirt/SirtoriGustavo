@@ -7,6 +7,8 @@ import Section from '../layout/frame/Section';
 import Proyects from './PageUser/Proyects';
 import Experience from './PageUser/Experience';
 import UserBio from './PageUser/UserBio';
+import CVButton from './PageUser/CVButton';
+import ButtonsList from './PageUser/ButtonsList';
 
 const PageUser = ({user}) => {
   const { currentUserName } = useAppStore()
@@ -29,6 +31,7 @@ const PageUser = ({user}) => {
 
       <Proyects/>
       <Experience/>
+      <ButtonsList/>
     </>
   )
 }
