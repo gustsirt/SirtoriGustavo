@@ -48,3 +48,15 @@ export const contributionsLoader = async () => {
     });
   }
 };
+
+export const contributionsPost = async (data) => {
+  try {
+    const response = await axiosInstance.post(`/v1/contributions`, data);
+    return response.data?.data || null;
+  } catch (error) {
+    throw new Response('Error al cargar los datos', {
+      status: 500,
+      statusText: error.message,
+    });
+  }
+};

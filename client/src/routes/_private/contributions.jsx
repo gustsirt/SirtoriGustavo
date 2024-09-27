@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { getLanguajes, getProfessions, contributionsLoader } from '../../apis/contributions.services';
+import { getLanguajes, getProfessions, contributionsLoader, contributionsPost } from '../../apis/contributions.services';
 import { useEffect, useState } from 'react';
 import Frame from '../../modules/layout/frame/Frame';
 import SectionWFilters from '../../modules/layout/frame/Section.Filter';
@@ -7,6 +7,7 @@ import Card from '../../modules/contributions/Card';
 import { useAppStore } from '../../store/useAppStore';
 import { BiBookmark, BiClipboard, BiCodeBlock, BiLogoGmail, BiSolidUserDetail } from 'react-icons/bi';
 import { z } from 'zod';
+import { alertBasic } from '../../modules/alerts/alerts';
 
 export const Route = createFileRoute('/_private/contributions')({
   loader: async () => {
@@ -64,10 +65,25 @@ useEffect(() => {
     { name: "code", label: "Codigo", icon:BiCodeBlock, type: "textarea" },
     { name: "example", label: "Ejemplo", icon:BiCodeBlock, type: "text" },
     { name: "contributedBy", label: "Id Usuario", type: "text", noEditable: true , default: currentUser._id},
+    { name: "professions", label: "professions", type: "text", noEditable: true , default: ["Backend"]},
+    { name: "languages", label: "languages", type: "text", noEditable: true , default: ["JavaScript"]},
   ];
-  function postApi(value) {
+
+
+
+  async function postApi(value) {
+    setIsLoading(true);
     console.log(value);
-    
+    try {
+      const resp = await contributionsPost(value)
+      console.log(resp);
+      
+    } catch (err) {
+      console.log(err);
+      alertBasic("Error", err, "error")
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   if (isLoading) { return <div className="text-center text-gray-500">Cargando...</div>; }
