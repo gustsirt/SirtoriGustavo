@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { BiEditAlt, BiLogoGmail, BiSolidPlusSquare } from 'react-icons/bi';
+import { BiSolidPlusSquare } from 'react-icons/bi';
 import { z } from 'zod';  
 import Modal from './Modal';
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
-const CreateModal = ({ title, fields}) => {
+const CreateModal = ({ title, fields, functionApi}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Generar dinámicamente el esquema de validación basado en los campos
@@ -34,7 +34,7 @@ const CreateModal = ({ title, fields}) => {
       onChange: dynamicSchema
     },
     onSubmit: ({value}) => {
-      console.log(value)
+      functionApi && functionApi(value);
       handleCloseModal();
     }
   })
@@ -45,6 +45,7 @@ const CreateModal = ({ title, fields}) => {
   };
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    form.reset();
   };
 
   return (

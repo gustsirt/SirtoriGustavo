@@ -5,7 +5,7 @@ import ElementList from "./SectionWFilter/Elements";
 import FilterSection from "./SectionWFilter/Filters";
 import CreateModal from "./CreateModal";
 
-const SectionWFilters = ({ title, data, filters, Card, isFilterPending, isElementPending, currentUserId, fields }) => {
+const SectionWFilters = ({ title, data, filters, Card, isFilterPending, isElementPending, currentUserId, fields, functionApi }) => {
   const [filteredData, setFilteredData] = useState(data);
   const [activeFilters, setActiveFilters] = useState({});
 
@@ -46,6 +46,7 @@ const SectionWFilters = ({ title, data, filters, Card, isFilterPending, isElemen
         <h2 className="text-3xl font-semibold mb-2">{title}</h2>
         <CreateModal 
           fields={fields}
+          functionApi={functionApi}
         />
       </div>
       <div className="flex">

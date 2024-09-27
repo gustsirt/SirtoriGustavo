@@ -65,6 +65,10 @@ useEffect(() => {
     { name: "example", label: "Ejemplo", icon:BiCodeBlock, type: "text" },
     { name: "contributedBy", label: "Id Usuario", type: "text", noEditable: true , default: currentUser._id},
   ];
+  function postApi(value) {
+    console.log(value);
+    
+  }
 
   if (isLoading) { return <div className="text-center text-gray-500">Cargando...</div>; }
   if (error) { return <div className="text-center text-gray-500">Error: {error}</div>; }
@@ -80,6 +84,7 @@ useEffect(() => {
           isFilterPending={isFilterLoading}
           currentUserId = {currentUser._id}
           fields= {edithFields}
+          functionApi={postApi}
         />
       </Frame>
     </>
