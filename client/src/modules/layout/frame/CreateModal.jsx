@@ -25,6 +25,9 @@ const CreateModal = ({ title, fields, functionApi}) => {
     }
     return acc;
   }, {})
+
+  console.log(defaultValues);
+  
   
   // Configuración de Tanstack Form
   const form = useForm({
@@ -68,37 +71,61 @@ const CreateModal = ({ title, fields, functionApi}) => {
             - field (fila 82) es el elemento de form.Field (solo tiene nombre y valor)
           */}
           {fields.map((fieldUnit) => (
-            fieldUnit.noEditable ? null :
-            <form.Field key={fieldUnit.name} name={fieldUnit.name}
-              children={(field) => (
-                <div className="my-3">
-                  <label htmlFor={field.name} className="block mb-2">
-                    {fieldUnit.icon && <fieldUnit.icon className={"inline-block mr-2"}/>}
-                    {fieldUnit.label}:
-                  </label>
+            fieldUnit.noEditable ? null : 
+            !fieldUnit.array ? (
+              <form.Field key={fieldUnit.name} name={fieldUnit.name} children={(field) => (
+                  <div className="my-3">
+                    <label htmlFor={field.name} className="block mb-2">
+                      {fieldUnit.icon && <fieldUnit.icon className={"inline-block mr-2"}/>}
+                      {fieldUnit.label}:
+                    </label>
 
-                  {/* Renderiza un <textarea> si el tipo es "textarea", sino un <input> */}
-                  {fieldUnit.type === 'textarea' ? (
-                    <textarea
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      className={`w-full border p-2 rounded mb-1 ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'}`}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                  ) : (
-                    <input
-                      id={field.name}
-                      name={field.name}
-                      type={fieldUnit.type || "text"}
-                      value={field.state.value}
-                      className={`w-full border p-2 rounded mb-1 ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'}`}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                  )}
-                </div>
-              )}
-            />
+                    {/* Renderiza un <textarea> si el tipo es "textarea", sino un <input> */}
+                    {fieldUnit.type === 'textarea'
+                    ? (
+                      <textarea
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        className={`w-full border p-2 rounded mb-1 ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'}`}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    ) : (
+                      <input
+                        id={field.name}
+                        name={field.name}
+                        type={fieldUnit.type || "text"}
+                        value={field.state.value}
+                        className={`w-full border p-2 rounded mb-1 ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'}`}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    )}
+                  </div>
+              )}/>
+            ) : (
+              <form.Field key={fieldUnit.name} name={fieldUnit.name} mode={"array"} children={
+                (field) => (
+                  <div className="my-3">
+                    <label htmlFor={field.name} className="block mb-2">
+                      {fieldUnit.icon && <fieldUnit.icon className={"inline-block mr-2"}/>}
+                      {fieldUnit.label}:
+                    </label>
+                    {field.state.value.map((_, index) => (
+                      <form.Field key={index} name={`${index}`}
+                      children={
+                        (subField) => (
+                          <input
+                            type={field.type}
+                            value={subField.state.value}
+                            onChange={(e) => subField.handleChange(e.target.value)}
+                          />
+                        )
+                      }/>
+                    ))}
+                  </div>
+                )
+              }/>
+            )
           ))}
           {/* Alertas Errores, Tanstack Form */}
           <form.Subscribe selector={(state) => state.errors}

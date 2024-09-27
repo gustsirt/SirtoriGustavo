@@ -24,8 +24,8 @@ function ContributionsPage () {
   const [isFilterLoading, setIsFilterLoading] = useState(false);
   const [error, setError] = useState(false);
   const { currentUser } = useAppStore();
-  console.log(contributions);
-
+  
+  //console.log(contributions);
 
   // Esperar Datos
   useEffect(() => {
@@ -65,18 +65,17 @@ useEffect(() => {
     { name: "code", label: "Codigo", icon:BiCodeBlock, type: "textarea" },
     { name: "example", label: "Ejemplo", icon:BiCodeBlock, type: "text" },
     { name: "contributedBy", label: "Id Usuario", type: "text", noEditable: true , default: currentUser._id},
-    { name: "professions", label: "professions", type: "text", noEditable: true , default: ["Backend"]},
-    { name: "languages", label: "languages", type: "text", noEditable: true , default: ["JavaScript"]},
+    { name: "professions", label: "professions", type: "text", array: true, noEditable: true , default: ["Backend"]},
+    { name: "languages", label: "Lenguaje", type: "text", array: true, default: ["JavaScript"]},
   ];
 
-
-
+  // Api Submit Modal Form
   async function postApi(value) {
     setIsLoading(true);
     console.log(value);
     try {
-      const resp = await contributionsPost(value)
-      console.log(resp);
+      // const resp = await contributionsPost(value)
+      // console.log(resp);
       
     } catch (err) {
       console.log(err);
