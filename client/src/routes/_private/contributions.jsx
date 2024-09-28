@@ -5,7 +5,7 @@ import Frame from '../../modules/layout/frame/Frame';
 import SectionWFilters from '../../modules/layout/frame/Section.Filter';
 import Card from '../../modules/contributions/Card';
 import { useAppStore } from '../../store/useAppStore';
-import { BiBookmark, BiClipboard, BiCodeBlock, BiCode } from 'react-icons/bi';
+import { BiBookmark, BiClipboard, BiCodeBlock, BiCode, BiBriefcase } from 'react-icons/bi';
 import { z } from 'zod';
 import { alertBasic } from '../../modules/alerts/alerts';
 
@@ -64,9 +64,9 @@ useEffect(() => {
       validation: z.string().min(5, "La descripción debe tener al menos 5 caracteres")},
     { name: "code", label: "Codigo", icon:BiCodeBlock, type: "textarea" },
     { name: "example", label: "Ejemplo", icon:BiCodeBlock, type: "text" },
-    { name: "contributedBy", label: "Id Usuario", type: "text", noEditable: true , default: currentUser._id},
-    { name: "professions", label: "professions", type: "text", array: true, noEditable: true , default: ["Backend"]},
-    { name: "languages", label: "Lenguaje", icon: BiCode, type: "text", array: true, default: ["JavaScript"]},
+    { name: "contributedBy", label: "Id Usuario", type: "text", noEditable: true , default: "66e74c2a0ff43936ac565d5d"},
+    { name: "professions", label: "Profesión", icon: BiBriefcase, type: "select", array: true, default: ["Backend"], enum: professions},
+    { name: "languages", label: "Lenguaje", icon: BiCode, type: "select", array: true, default: ["JavaScript"], enum: languages },
   ];
 
   // Api Submit Modal Form

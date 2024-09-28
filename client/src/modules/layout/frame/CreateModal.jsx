@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
-//import { BiSolidPlusSquare, BiX, BiAddToQueue } from 'react-icons/bi';
 import { useForm } from '@tanstack/react-form';
 import Modal from './Modal';
-import { BiBookmark, BiClipboard, BiCodeBlock, BiCode, BiBriefcase, BiSolidPlusSquare, BiX, BiAddToQueue } from 'react-icons/bi';
+import { BiSolidPlusSquare, BiX, BiAddToQueue } from 'react-icons/bi';
 import { z } from 'zod';  
 import { zodValidator } from '@tanstack/zod-form-adapter';
+
+/**
+ * CreateModal Componente
+ * @param {string} title - Título del modal
+ * @param {function} functionApi - Función API que se ejecuta en el submit
+ * @param {array} fields - Arreglo de campos dinámicos a renderizar en el formulario
+ */
 
 /* EJEMPLO DE USO DE FIELDS
   const fields = [
@@ -20,19 +26,7 @@ import { zodValidator } from '@tanstack/zod-form-adapter';
 ];
 */
 
-const CreateModal = ({ title, functionApi}) => {
-  // fields se incluye aqui como Mock pero viene por params
-  const fields = [
-    { name: "title", label: "Titulo", icon:BiBookmark, type: "text", default: "Aquí va un titulo",
-      validation: z.string().min(5, "El titulo debe tener al menos 5 caracteres")},
-    { name: "description", label: "Descripción", icon:BiClipboard, type: "textarea", default: "Contar que hace",
-      validation: z.string().min(5, "La descripción debe tener al menos 5 caracteres")},
-    { name: "code", label: "Codigo", icon:BiCodeBlock, type: "textarea" },
-    { name: "example", label: "Ejemplo", icon:BiCodeBlock, type: "text" },
-    { name: "contributedBy", label: "Id Usuario", type: "text", noEditable: true , default: "66e74c2a0ff43936ac565d5d"},
-    { name: "professions", label: "Profesión", icon: BiBriefcase, type: "select", array: true, default: ["Backend"], enum: ["Backend", "Frontend"]},
-    { name: "languages", label: "Lenguaje", icon: BiCode, type: "select", array: true, default: ["JavaScript"], enum: ["JavaScript", "Python", "TypeScript", "Go", "Ruby"] },
-  ];
+const CreateModal = ({ title, fields, functionApi}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Esquema de validación generado dinámicamente
@@ -61,12 +55,13 @@ const CreateModal = ({ title, functionApi}) => {
       onChange: dynamicSchema
     },
     onSubmit: ({value}) => {
+      // Llama a la función API pasando los valores
       functionApi && functionApi(value);
       handleCloseModal();
     }
   })
 
-  // Abrir y cerrar el modal
+  // Controlar apertura/cierre del modal
   const handleEditClick  = () => setIsModalOpen(true);
   const handleCloseModal = () => { setIsModalOpen(false); form.reset(); };
 
@@ -82,7 +77,7 @@ const CreateModal = ({ title, functionApi}) => {
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} title={`Crear ${title}`}>
       <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
       
-          {/* Renderizar campos dinámicamente */}
+          {/* Renderizado de campos dinámicos */}
           {fields.map((fieldUnit) => (
             fieldUnit.noEditable ? null : 
             !fieldUnit.array ? (
@@ -92,8 +87,7 @@ const CreateModal = ({ title, functionApi}) => {
                       {fieldUnit.icon && <fieldUnit.icon className="inline-block mr-2" />}
                       {fieldUnit.label}:
                     </label>
-                    {fieldUnit.type === 'textarea'
-                    ? (
+                    {fieldUnit.type === 'textarea' ? (
                       <textarea
                         id={field.name}
                         name={field.name}
@@ -123,49 +117,35 @@ const CreateModal = ({ title, functionApi}) => {
                   {/* Mapeo de arrays */}
                   {field.state.value.map((_, index) => (
                     <div key={index} className="flex gap-2 my-2 items-center">
-                      <select 
-                        value={index} 
-                        onChange={(e) => field.moveValue(index, +e.target.value)}
-                        className="w-28 border p-1 rounded"
-                      >
-                        {/* Opción para cada índice */}
-                        {field.state.value.map((_, newIndex) => (
-                          <option key={newIndex} value={newIndex}>
-                            # {newIndex + 1}
-                          </option>
-                        ))}
-                      </select>
-                      {
-                        fieldUnit.type === "select"
-                        ? (
-                          <select
-                            value={field.state.value[index]}
-                            onChange={(e) => field.updateValue(index, e.target.value)}
+                      {fieldUnit.type === "select" ? (
+                        <select
+                          value={field.state.value[index]}
+                          onChange={(e) => {
+                            const newValue = [...field.state.value];
+                            newValue[index] = e.target.value;
+                            field.setValue(newValue);}}
+                          className="w-full border p-2 rounded-md mb-1"
+                        >
+                          {fieldUnit.enum.map((val, newIndex) => (
+                            <option key={newIndex} value={val}>
+                              {val}
+                            </option>
+                          ))}
+                        </select>
+                      ): (
+                        <form.Field key={index} name={`${fieldUnit.name}.${index}`} children={(subField) => (
+                          <input
+                            type={fieldUnit.type}
+                            value={subField.state.value}
+                            onChange={(e) => subField.handleChange(e.target.value)}
                             className="w-full border p-2 rounded-md mb-1"
-                          >
-                            {fieldUnit.enum.map((val, newIndex) => (
-                              <option key={newIndex} value={val}>
-                                {val}
-                              </option>
-                            ))}
-                          </select>
-                        ): (
-                          <form.Field key={index} name={`${fieldUnit.name}.${index}`} children={(subField) => (
-                            <div className='flex'>
-                              <input
-                                type={fieldUnit.type}
-                                value={subField.state.value}
-                                onChange={(e) => subField.handleChange(e.target.value)}
-                                className="w-full border p-2 rounded-md mb-1"
-                              />
-                              <button onClick={() => field.removeValue(index)} className="text-red-500 ml-2"><BiX /></button>
-                            </div>
-                          )}/>
-                        )
-                      }
+                          />
+                        )}/>
+                      )}
+                      <button type="button" onClick={() => field.removeValue(index)} className="text-red-500 ml-2"><BiX /></button>
                     </div>
                   ))}
-                  <button onClick={() => field.pushValue('')} className="text-blue-500 mt-2">Agregar <BiAddToQueue /></button>
+                  <button type="button" onClick={() => field.pushValue(fieldUnit.enum[0] || '')} className="text-blue-500 mt-2">Agregar <BiAddToQueue className='inline-block'/></button>
                 </div>
               )}/>
             )
