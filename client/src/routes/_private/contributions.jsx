@@ -5,7 +5,7 @@ import Frame from '../../modules/layout/frame/Frame';
 import SectionWFilters from '../../modules/layout/frame/Section.Filter';
 import Card from '../../modules/contributions/Card';
 import { useAppStore } from '../../store/useAppStore';
-import { BiBookmark, BiClipboard, BiCodeBlock, BiLogoGmail, BiSolidUserDetail } from 'react-icons/bi';
+import { BiBookmark, BiClipboard, BiCodeBlock, BiCode } from 'react-icons/bi';
 import { z } from 'zod';
 import { alertBasic } from '../../modules/alerts/alerts';
 
@@ -66,7 +66,7 @@ useEffect(() => {
     { name: "example", label: "Ejemplo", icon:BiCodeBlock, type: "text" },
     { name: "contributedBy", label: "Id Usuario", type: "text", noEditable: true , default: currentUser._id},
     { name: "professions", label: "professions", type: "text", array: true, noEditable: true , default: ["Backend"]},
-    { name: "languages", label: "Lenguaje", type: "text", array: true, default: ["JavaScript"]},
+    { name: "languages", label: "Lenguaje", icon: BiCode, type: "text", array: true, default: ["JavaScript"]},
   ];
 
   // Api Submit Modal Form
