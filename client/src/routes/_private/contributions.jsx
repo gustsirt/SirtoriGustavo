@@ -77,6 +77,7 @@ function ContributionsPage () {
       { name: "contributedBy", label: "Id Usuario", type: "text", noEditable: true , default: "66e74c2a0ff43936ac565d5d"},
       { name: "professions", label: "Profesión", icon: BiBriefcase, type: "select", array: true, default: ["Backend"], enum: professions},
       { name: "languages", label: "Lenguaje", icon: BiCode, type: "select", array: true, default: ["JavaScript"], enum: languages },
+      { name: "libraries", label: "Librerias", icon: BiBookmark, type: "text", array: true, default: []},
     ],
     card: Card,
     currentUserId: currentUser._id,
