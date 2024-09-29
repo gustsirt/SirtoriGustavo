@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import {Icon, iconMap} from '../../modules/icons/iconifyIcon'
 
 export const Route = createFileRoute('/_private/private')({
   component: PrivateHome
@@ -8,6 +7,5 @@ export const Route = createFileRoute('/_private/private')({
 function PrivateHome () {
   return (<>
     <div>Hello /_private/private!</div>
-    <Icon icon={iconMap.frameworks.Nodejs}/>
   </>)
 }

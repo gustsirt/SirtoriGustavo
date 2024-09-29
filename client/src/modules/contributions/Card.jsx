@@ -9,6 +9,7 @@ const Card = ({ item, config }) => {
   const [showCode, setShowCode] = useState(false);
   const language = item.languages[0].toLowerCase()
 
+  console.log(item)
   // Función para copiar el código al portapapeles
   const handleCopy = () => {
     navigator.clipboard.writeText(item.code);
