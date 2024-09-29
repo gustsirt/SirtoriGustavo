@@ -145,7 +145,9 @@ const ActionModal = ({ title, fields, functionApi, defaultValues}) => {
                       <button type="button" onClick={() => field.removeValue(index)} className="text-red-500 ml-2"><BiX /></button>
                     </div>
                   ))}
-                  <button type="button" onClick={() => field.pushValue(fieldUnit.enum[0] || '')} className="text-blue-500 mt-2">Agregar <BiAddToQueue className='inline-block'/></button>
+                  <button type="button" onClick={() => {
+                    field.pushValue(fieldUnit.enum ? fieldUnit.enum[0] : '')
+                    }} className="text-blue-500 mt-2">Agregar <BiAddToQueue className='inline-block'/></button>
                 </div>
               )}/>
             )
