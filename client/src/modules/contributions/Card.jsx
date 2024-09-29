@@ -4,11 +4,14 @@ import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { BiCopy } from 'react-icons/bi';
 import { alertMessage } from '../alerts/alerts';
 import ActionModal from '../layout/frame/ActionModal'
+import Icon from '../icons/iconifyIcon';
 
 const Card = ({ item, config }) => {
   const [showCode, setShowCode] = useState(false);
-  const language = item.languages[0].toLowerCase()
+  const language = item.languages[0]
+  const framework = item.frameworks[0]
 
+  console.log(item)
   // Función para copiar el código al portapapeles
   const handleCopy = () => {
     navigator.clipboard.writeText(item.code);
@@ -18,10 +21,13 @@ const Card = ({ item, config }) => {
   return (
     <div className="p-4 bg-white rounded shadow-lg mx-auto">
       <div className="mb-4">
-        <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
+        <div className="mb-4 flex items-center">
+          <Icon name={language} category="languages" className="mr-2" />
+          <Icon name={framework} category="frameworks" className="mr-2" />
+          <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
+        </div>
         <p className="text-sm font-bold text-gray-500">Autor: {item.contributedBy.full_name}</p>
         <p className="text-sm text-gray-500">{item.description}</p>
-        <p className="text-xl font-bold">Código {language.toUpperCase()}</p>
       </div>
 
       <div className="flex space-x-4 mb-4">

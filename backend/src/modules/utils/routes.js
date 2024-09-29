@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { LANGUAJES, PROFESSIONS } from "./valueList.js";
+import { LANGUAJES, PROFESSIONS, FRAMEWORKS } from "./valueList.js";
 import { handleAuth, users } from "../../middleware/handlePolicies.js";
 
 const router = Router();
@@ -10,5 +10,6 @@ const router = Router();
 router
 .get    ('/languajes',   handleAuth(users), (req, res) => res.sendSuccess(LANGUAJES))
 .get    ('/professions', handleAuth(users), (req, res) => res.sendSuccess(PROFESSIONS))
+.get    ('/frameworks', handleAuth(users), (req, res) => res.sendSuccess(FRAMEWORKS))
 
 export default router
