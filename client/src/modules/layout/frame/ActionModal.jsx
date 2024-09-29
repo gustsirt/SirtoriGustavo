@@ -26,7 +26,7 @@ import { zodValidator } from '@tanstack/zod-form-adapter';
 ];
 */
 
-const CreateModal = ({ title, fields, functionApi}) => {
+const ActionModal = ({ title, fields, functionApi, defaultValues}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Esquema de validación generado dinámicamente
@@ -40,7 +40,7 @@ const CreateModal = ({ title, fields, functionApi}) => {
   );
 
   // Valores por defecto generados dinámicamente
-  const defaultValues = fields.reduce((acc, field) => {
+  const configDefaultValues = fields.reduce((acc, field) => {
     if (field.default) {
       acc[field.name] = field.default;
     }
@@ -49,7 +49,7 @@ const CreateModal = ({ title, fields, functionApi}) => {
   
   // Configuración de Tanstack Form
   const form = useForm({
-    defaultValues: defaultValues,
+    defaultValues: defaultValues || configDefaultValues,
     validatorAdapter: zodValidator(dynamicSchema),
     validators: {
       onChange: dynamicSchema
@@ -70,11 +70,11 @@ const CreateModal = ({ title, fields, functionApi}) => {
       {/* Botón para abrir el modal */}
       <button onClick={handleEditClick}
           className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center hover:bg-blue-600 transition-all">
-          Añadir <BiSolidPlusSquare className="ml-2" />
+          {title} <BiSolidPlusSquare className="ml-2" />
       </button>
 
       {/* Modal con formulario dinámico */}
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title={`Crear ${title}`}>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title={title}>
       <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
       
           {/* Renderizado de campos dinámicos */}
@@ -189,4 +189,4 @@ const CreateModal = ({ title, fields, functionApi}) => {
   )
 };
 
-export default CreateModal
+export default ActionModal
