@@ -21,21 +21,28 @@ function ContributionsPage () {
   const [refresh, setRefresh] = useState(true);
   const [error, setError] = useState(false);
 
-  const contributions = Route.useLoaderData()
+  const [contributions, setContributions] = useState(Route.useLoaderData());
   const [languages, setLanguages] = useState();
   const [professions, setProfessions] = useState();
   const { currentUser } = useAppStore();
 
   const [isFilterLoading, setIsFilterLoading] = useState(false);
-  
-  console.log(contributions);
 
-  // Esperar Datos
   useEffect(() => {
-    if (contributions) {
-      setIsLoading(false);
-    }
-  }, [contributions, refresh]);
+    const fetchContributions = async () => {
+      setIsLoading(true);
+      try {
+        const updatedContributions = await getContributions();
+        setContributions(updatedContributions);
+      } catch (err) {
+        setError("Hubo un error al cargar las contribuciones");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    fetchContributions();
+  }, [refresh]);
 
   // Cargar lenguajes y profesiones
   useEffect(() => {
