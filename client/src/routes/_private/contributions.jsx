@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { getLanguajes, getProfessions, getContributions, postContributions, updateContribution, deleteContribution } from '../../apis/contributions.services';
+import { getLanguajes, getProfessions, getFrameworks, getContributions, postContributions, updateContribution, deleteContribution } from '../../apis/contributions.services';
 import { useEffect, useState } from 'react';
 import Frame from '../../modules/layout/frame/Frame';
 import SectionWFilters from '../../modules/layout/frame/Section.Filter';
@@ -24,6 +24,7 @@ function ContributionsPage () {
   const [contributions, setContributions] = useState(Route.useLoaderData());
   const [languages, setLanguages] = useState();
   const [professions, setProfessions] = useState();
+  const [frameworks, setFrameworks] = useState();
   const { currentUser } = useAppStore();
 
   const [isFilterLoading, setIsFilterLoading] = useState(false);
@@ -49,9 +50,10 @@ function ContributionsPage () {
     const fetchFilters = async () => {
       setIsFilterLoading(true);
       try {
-        const [languagesResp, professionsResp] = await Promise.all([getLanguajes(), getProfessions()]);
-        setLanguages(languagesResp); // Guardar los lenguajes obtenidos
-        setProfessions(professionsResp); // Guardar las profesiones obtenidas
+        const [languagesResp, professionsResp, frameworksResp] = await Promise.all([getLanguajes(), getProfessions(), getFrameworks()]);
+        setLanguages(languagesResp);
+        setProfessions(professionsResp);
+        setFrameworks(Object.values(frameworksResp).flat());
       } catch (err) {
         setError('Hubo un error al cargar los filtros');
       } finally {
@@ -77,6 +79,7 @@ function ContributionsPage () {
       { name: "contributedBy", label: "Id Usuario", type: "text", noEditable: true , default: "66e74c2a0ff43936ac565d5d"},
       { name: "professions", label: "Profesión", icon: BiBriefcase, type: "select", array: true, default: ["Backend"], enum: professions},
       { name: "languages", label: "Lenguaje", icon: BiCode, type: "select", array: true, default: ["JavaScript"], enum: languages },
+      { name: "frameworks", label: "Frameworks", icon: BiCode, type: "select", array: true, default: [""], enum: frameworks },
       { name: "libraries", label: "Librerias", icon: BiBookmark, type: "text", array: true, default: [""]},
     ],
     card: Card,

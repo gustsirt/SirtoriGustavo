@@ -36,6 +36,17 @@ export const getProfessions = async () => { // Reemplazar por Query
   }
 };
 
+export const getFrameworks = async () => { // Reemplazar por Query
+  try {
+    const response = await axiosInstance.get(`/v1/values/frameworks`);
+    return response.data?.data || null;
+  } catch (error) {
+    throw new Response('Error al cargar los datos', {
+      status: 500,
+      statusText: error.message,
+    });
+  }
+};
 
 export const getContributions = async () => {
   try {
