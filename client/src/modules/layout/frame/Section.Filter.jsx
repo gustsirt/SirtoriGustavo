@@ -3,9 +3,16 @@ import React, { useState, useEffect } from "react";
 // Subcomponentes
 import ElementList from "./SectionWFilter/Elements";
 import FilterSection from "./SectionWFilter/Filters";
-import CreateModal from "./CreateModal";
+import ActionModal from "./ActionModal";
 
-const SectionWFilters = ({ title, data, filters, Card, isFilterPending, isElementPending, currentUserId, fields, functionApi }) => {
+const SectionWFilters = ({
+  title,
+  data,
+  isFilterPending, 
+  isElementPending, 
+  config
+  }) => {
+
   const [filteredData, setFilteredData] = useState(data);
   const [activeFilters, setActiveFilters] = useState({});
 
@@ -44,20 +51,21 @@ const SectionWFilters = ({ title, data, filters, Card, isFilterPending, isElemen
     <>
       <div className="flex justify-between">
         <h2 className="text-3xl font-semibold mb-2">{title}</h2>
-        <CreateModal 
-          fields={fields}
-          functionApi={functionApi}
+        <ActionModal 
+          title={"Agregar nuevo elemento"}
+          fields={config.fields}
+          functionApi={config.actions.postApi}
         />
       </div>
       <div className="flex">
         {/* Sección de filtros */}
         <div className="w-1/4 p-4 border-r border-gray-200">
-          <FilterSection filters={filters} onFilterChange={handleFilterChange} isPending={isFilterPending}/>
+          <FilterSection filters={config.filters} onFilterChange={handleFilterChange} isPending={isFilterPending}/>
         </div>
 
         {/* Sección de elementos */}
         <div className="w-3/4 p-4">
-          <ElementList data={filteredData} Card={Card} isPending={isElementPending} currentUserId={currentUserId}/>
+          <ElementList data={filteredData} config={config} isPending={isElementPending}/>
         </div>
       </div>
     </>
