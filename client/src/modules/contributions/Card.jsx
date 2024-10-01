@@ -20,6 +20,8 @@ const Card = ({ item, config }) => {
 
   return (
     <div className="p-4 bg-white rounded shadow-lg mx-auto">
+    
+      {/* Area Header */}
       <div className="mb-4">
         <div className="mb-4 flex items-center">
           <Icon name={language} category="languages" className="mr-2" />
@@ -30,37 +32,40 @@ const Card = ({ item, config }) => {
         <p className="text-sm text-gray-500">{item.description}</p>
       </div>
 
+      {/* Area de Botones Código*/}
       <div className="flex space-x-4 mb-4">
-        <button
-          onClick={() => setShowCode(!showCode)}
+        {/* Botón para ver/ocultar código*/}
+        <button onClick={() => setShowCode(!showCode)}
           className="px-3 py-2 bg-blue-500 text-white rounded"
         >
           {showCode ? 'Ocultar código' : 'Ver código'}
         </button>
 
-        <button
-          onClick={handleCopy}
+        {/* Botón para Copiar el código */}
+        <button onClick={handleCopy}
           className="px-3 py-2 bg-green-500 text-white rounded flex items-center space-x-2"
         >
           <BiCopy />
           <span>Copiar código</span>
         </button>
         
-        {(config.currentUserId == item.contributedBy._id)
-        ? <ActionModal
+        {/* Botónes para editar/eliminar*/}
+        {(config.currentUserId == item.contributedBy._id) ? (
+          <ActionModal
             title={"Editar"}
             fields={config.fields}
             functionApi={config.actions.putApi}
             defaultValues={item}
           />
-        : "No editable"}
-        {(config.currentUserId == item.contributedBy._id)
-        ? <button onClick={()=>config.actions.delApi(item._id)} className="px-4 py-2 bg-red-500 text-white rounded-md flex items-center hover:bg-red-600 transition-all">
-          Eliminar
-        </button>
-        : "No eliminable"}
+        ) : "No editable"}
+        {(config.currentUserId == item.contributedBy._id) ? (
+          <button onClick={()=>config.actions.delApi(item._id)} className="px-4 py-2 bg-red-500 text-white rounded-md flex items-center hover:bg-red-600 transition-all">
+            Eliminar
+          </button>
+        ) : "No eliminable"}
       </div>
 
+      {/* Mostrar: código */}
       {showCode && (
         <SyntaxHighlighter
           language={language}

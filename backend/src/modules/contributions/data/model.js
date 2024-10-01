@@ -8,7 +8,7 @@ const ContributionSchema = new Schema({
   code: { type: String },
   example: { type: String },
   contributedBy: { type: Schema.Types.ObjectId, ref: 'users', required: true },
-  link: { type: String },
+  links: [{ type: String }],
 
   // clasificators
   professions: [{ type: String, enum: PROFESSIONS, required: true }],

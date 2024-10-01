@@ -10,7 +10,7 @@ const validSchema = {
       code: Joi.string().optional().allow(''),
       example: Joi.string().optional().allow(''),
       contributedBy: Joi.string().optional().hex().length(24),
-      link: Joi.string().uri().optional(),
+      links: Joi.string().uri().optional(),
       //Clasificators:
       professions: Joi.string().valid(...PROFESSIONS).min(1).optional(),
       languages: Joi.string().valid(...LANGUAJES).min(1).optional(),
@@ -27,7 +27,7 @@ const validSchema = {
       code: Joi.string().optional().allow(''),
       example: Joi.string().optional().allow(''),
       contributedBy: Joi.string().hex().length(24).required(),
-      link: Joi.string().uri().optional(),
+      links: Joi.array().items(Joi.uri()).optional(),
       //Clasificators:
       professions: Joi.array().items(Joi.string().valid(...PROFESSIONS)).min(1).required(),
       languages: Joi.array().items(Joi.string().valid(...LANGUAJES)).min(1).required(),
@@ -42,7 +42,7 @@ const validSchema = {
       code: Joi.string().optional().allow(''),
       example: Joi.string().optional().allow(''),
       contributedBy: Joi.string().optional(),
-      link: Joi.string().uri().optional(),
+      links: Joi.array().items(Joi.uri()).optional(),
       //Clasificators:
       professions: Joi.array().items(Joi.string().valid(...PROFESSIONS)).optional(),
       languages: Joi.array().items(Joi.string().valid(...LANGUAJES)).optional(),
