@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { BiCopy } from 'react-icons/bi';
+import { BiCopy, BiSolidPlusSquare } from 'react-icons/bi';
 import { alertMessage } from '../alerts/alerts';
 import ActionModal from '../layout/frame/ActionModal'
 import Icon from '../icons/iconifyIcon';
@@ -48,11 +48,13 @@ const Card = ({ item, config }) => {
         
         {(config.currentUserId == item.contributedBy._id)
         ? <ActionModal
-            title={"Editar"}
+            title={"Editar contribución"}
             fields={config.fields}
             functionApi={config.actions.putApi}
             defaultValues={item}
-          />
+          >
+            <BiSolidPlusSquare className="mx-2" /> Editar
+          </ActionModal>
         : "No editable"}
         {(config.currentUserId == item.contributedBy._id)
         ? <button onClick={()=>config.actions.delApi(item._id)} className="px-4 py-2 bg-red-500 text-white rounded-md flex items-center hover:bg-red-600 transition-all">

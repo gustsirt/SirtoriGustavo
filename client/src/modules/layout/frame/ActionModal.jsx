@@ -1,32 +1,34 @@
 import React, { useState } from 'react'
 import { useForm } from '@tanstack/react-form';
 import Modal from './Modal';
-import { BiSolidPlusSquare, BiX, BiAddToQueue } from 'react-icons/bi';
+import { BiX, BiAddToQueue } from 'react-icons/bi';
 import { z } from 'zod';  
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
 /**
- * CreateModal Componente
- * @param {string} title - Título del modal
- * @param {function} functionApi - Función API que se ejecuta en el submit
- * @param {array} fields - Arreglo de campos dinámicos a renderizar en el formulario
+ * Componente ActionModal
+ * @param {string} title - Título del modal.
+ * @param {function} functionApi - Función API que se ejecuta al enviar el formulario.
+ * @param {array} fields - Arreglo de campos dinámicos a renderizar en el formulario.
+ * @param {object} defaultValues - Valores predeterminados para los campos del formulario.
+ * @param {ReactNode} children - Elemento(s) que se mostrarán como disparador del modal.
  */
 
-/* EJEMPLO DE USO DE FIELDS
+/* EJEMPLO DE USO DE FIELDS:
   const fields = [
-  * Campo normal
-  { name: "title", label: "Titulo", icon:BiBookmark, type: "text", default: "Aquí va un titulo",
-    validation: z.string().min(5, "El titulo debe tener al menos 5 caracteres")},
+  * Campo de texto normal
+  { name: "title", label: "Título", icon: BiBookmark, type: "text", default: "Aquí va un título",
+    validation: z.string().min(5, "El título debe tener al menos 5 caracteres") },
   * Text Area
-  { name: "description", ..., type: "textarea", ...},
+  { name: "description", ..., type: "textarea", ... },
   * Array (lista de valores que se puede ir agregando)
-  { name: "professions", ... type: "text", array: true, default: ["Backend"]},
-  * Select Array (es un array pero limitado a una lista)
+  { name: "professions", ..., type: "text", array: true, default: ["Backend"] },
+  * Select Array (array pero limitado a una lista de opciones)
   { name: "languages", ..., type: "select", array: true, ..., enum: ["JavaScript", "Python", "TypeScript", "Go", "Ruby"] },
 ];
 */
 
-const ActionModal = ({ title, fields, functionApi, defaultValues}) => {
+const ActionModal = ({ title, fields, functionApi, defaultValues, children}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Esquema de validación generado dinámicamente
@@ -70,7 +72,7 @@ const ActionModal = ({ title, fields, functionApi, defaultValues}) => {
       {/* Botón para abrir el modal */}
       <button onClick={handleEditClick}
           className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center hover:bg-blue-600 transition-all">
-          {title} <BiSolidPlusSquare className="ml-2" />
+          {children}
       </button>
 
       {/* Modal con formulario dinámico */}
