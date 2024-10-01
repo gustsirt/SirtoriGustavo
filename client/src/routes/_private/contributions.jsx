@@ -68,6 +68,7 @@ function ContributionsPage () {
       { key: "title", label: "Título", type: "text" },
       { key: "professions", label: "Profesiones", type: "select", options: professions },
       { key: "languages", label: "Lenguaje", type: "select", options: languages },
+      { key: "frameworks", label: "FrameWorks", type: "select", options: frameworks },
     ],
     fields: [
       { name: "title", label: "Titulo", icon:BiBookmark, type: "text", default: "Aquí va un titulo",
