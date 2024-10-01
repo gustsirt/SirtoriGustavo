@@ -11,5 +11,6 @@ router
 .get    ('/languajes',   handleAuth(users), (req, res) => res.sendSuccess(LANGUAJES))
 .get    ('/professions', handleAuth(users), (req, res) => res.sendSuccess(PROFESSIONS))
 .get    ('/frameworks', handleAuth(users), (req, res) => res.sendSuccess(FRAMEWORKS))
+.get    ('/applinks', handleAuth(users), (req, res) => res.sendSuccess(LINKSAPPS))
 
 export default router
