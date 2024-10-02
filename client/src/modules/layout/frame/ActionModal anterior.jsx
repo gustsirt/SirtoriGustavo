@@ -12,111 +12,21 @@ import { zodValidator } from '@tanstack/zod-form-adapter';
  * @param {array} fields - Arreglo de campos dinámicos a renderizar en el formulario
  */
 
-/* GUIA DE FIELDS
-* valores por defecto
-type: "text",
-default: ""
-icon: opcional (se puede omitir si no se requiere validación)
-validation: opcional (se puede omitir si no se requiere validación)
-
-const fields = [
-  * Campo genérico (text, number, date, etc.)
-  {
-    name: "title",
-    label: "Titulo",
-    icon: BiBookmark,
-    type: "text",  // Puede ser cualquier tipo básico como "text", "number", "date", etc.
-    default: "Aquí va un titulo",
-    validation: z.string().min(5, "El titulo debe tener al menos 5 caracteres")
-  },
-
-  * Campo Textarea
-  {
-    name: "description",
-    label: "Descripción",
-    icon: null,
-    type: "textarea",
-    default: "",
-    validation: z.string().min(10, "La descripción debe tener al menos 10 caracteres")
-  },
-
-  * Campo Select (opciones limitadas)
-  {
-    name: "languages",
-    label: "Lenguajes",
-    icon: BiCode,
-    type: "select",  // Select estático
-    enum: ["JavaScript", "Python", "TypeScript", "Go", "Ruby"],  // Opciones del select
-    default: "JavaScript",
-    validation: z.enum(["JavaScript", "Python", "TypeScript", "Go", "Ruby"])
-  },
-
-  * Campo Array (lista de valores)
-  {
-    name: "professions",
-    label: "Profesiones",
-    icon: BiBriefcase,
-    type: "array",  // Indica que es un array
-    itemType: "text",  // El tipo de cada ítem dentro del array (puede ser "text", "select", etc.)
-    default: ["Backend"],
-    validation: z.array(z.string()).min(1, "Debe haber al menos una profesión")
-  },
-
-  * Array de objetos (cada elemento tiene varios campos)
-  {
-    name: "socialLinks",
-    label: "Redes Sociales",
-    icon: BiLink,
-    type: "array",  // Es un array
-    itemType: "fields",  // Indica que cada ítem es un objeto con varios campos
-    fields: [  // Campos dentro de cada objeto del array
-      {
-        name: "platform",
-        label: "Plataforma",
-        type: "select",
-        enum: ["GitHub", "LinkedIn", "Twitter", "Facebook"],
-        validation: z.enum(["GitHub", "LinkedIn", "Twitter", "Facebook"])
-      },
-      {
-        name: "url",
-        label: "URL",
-        type: "text",
-        validation: z.string().url("Debe ser una URL válida")
-      }
-    ],
-    default: [{ platform: "GitHub", url: "https://github.com/usuario" }],
-    validation: z.array(
-      z.object({
-        platform: z.enum(["GitHub", "LinkedIn", "Twitter", "Facebook"]),
-        url: z.string().url()
-      })
-    ).min(1, "Debe haber al menos un enlace de red social")
-  }
+/* EJEMPLO DE USO DE FIELDS
+  const fields = [
+  * Campo normal
+  { name: "title", label: "Titulo", icon:BiBookmark, type: "text", default: "Aquí va un titulo",
+    validation: z.string().min(5, "El titulo debe tener al menos 5 caracteres")},
+  * Text Area
+  { name: "description", ..., type: "textarea", ...},
+  * Array (lista de valores que se puede ir agregando)
+  { name: "professions", ... type: "text", array: true, default: ["Backend"]},
+  * Select Array (es un array pero limitado a una lista)
+  { name: "languages", ..., type: "select", array: true, ..., enum: ["JavaScript", "Python", "TypeScript", "Go", "Ruby"] },
+  * Object
+  { name: "links", type: "linkSelect", label: "Links", array: true, enum: ["npm", "github", "website"] }
 ];
 */
-
-/**
- * Subcomponente para renderizar los campos dinámicos del formulario.
-*/
-const DynamicField = ({ field, form }) => {
-  const { name, label, icon: Icon, type, enum: enumOptions, itemType } = field;
-
-  return (
-    <form.Field key={name} name={name}>
-      {({ state, handleChange }) => (
-        <div className="my-3">
-          <label htmlFor={name} className="block mb-2 text-gray-700">
-            {Icon && <Icon className="inline-block mr-2" />}
-            {label}:
-          </label>
-
-
-    </div>
-      )}
-    </form.Field>
-  )
-}
-
 
 const ActionModal = ({ title, fields, functionApi, defaultValues}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -143,8 +53,12 @@ const ActionModal = ({ title, fields, functionApi, defaultValues}) => {
   const form = useForm({
     defaultValues: defaultValues || configDefaultValues,
     validatorAdapter: zodValidator(dynamicSchema),
+    validators: {
+      onChange: dynamicSchema
+    },
     onSubmit: ({value}) => {
-      functionApi && functionApi(value); // Llama a la API
+      // Llama a la función API pasando los valores
+      functionApi && functionApi(value);
       handleCloseModal();
     }
   })

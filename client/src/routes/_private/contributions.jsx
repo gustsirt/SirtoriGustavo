@@ -82,6 +82,7 @@ function ContributionsPage () {
       { name: "languages", label: "Lenguaje", icon: BiCode, type: "select", array: true, default: ["JavaScript"], enum: languages },
       { name: "frameworks", label: "Frameworks", icon: BiCode, type: "select", array: true, default: [""], enum: frameworks },
       { name: "libraries", label: "Librerias", icon: BiBookmark, type: "text", array: true, default: [""]},
+      { name: "links", type: "linkSelect", label: "Links", array: true, enum: ["npm", "github", "website"] }
     ],
     card: Card,
     currentUserId: currentUser._id,
