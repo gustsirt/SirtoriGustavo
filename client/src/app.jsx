@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { routeTree } from './routeTree.gen'
@@ -10,7 +10,12 @@ import { useAppStore } from './store/useAppStore'
 export const queryClient = new QueryClient()
 
 const App = () => {
-  const { isAuthenticated, getToken } = useAppStore();
+  const { isAuthenticated, checkAuth, getToken } = useAppStore();
+
+  // Verifica si el usuario está autenticado cuando se monta el componente
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const router = useMemo(
     () =>
