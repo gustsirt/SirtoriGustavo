@@ -99,8 +99,9 @@ const fields = [
  * Subcomponente para renderizar los campos dinámicos del formulario.
 */
 const DynamicField = ({ field, form }) => {
-  const { name, label, icon: Icon, type, enum: enumOptions, itemType } = field;
+  const { name, label, icon: Icon, type, enum: enumOptions, itemType, fields: subFields } = field;
 
+  // Renderiza el campo según el tipo definido
   return (
     <form.Field key={name} name={name}>
       {({ state, handleChange }) => (
@@ -110,13 +111,111 @@ const DynamicField = ({ field, form }) => {
             {label}:
           </label>
 
-
-    </div>
+          {/* Textarea */}
+          {type === 'textarea' ? (
+            <textarea
+              id={name}
+              value={state.value}
+              className={`w-full border p-2 rounded-md ${state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-blue-500`}
+              onChange={(e) => handleChange(e.target.value)}
+            />
+          ) : /* Select */
+          type === 'select' ? (
+            <select
+              id={name}
+              value={Array.isArray(state.value) && state.value.length > 0 ? state.value[0] : ""}
+              className="w-full border p-2 rounded-md"
+              onChange={(e) => handleChange([e.target.value])}
+            >
+              {enumOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              )
+              )}
+            </select>
+          ) : /* Array de textos */
+          type === 'array' && itemType === 'text' ? (
+            <div>
+              {state.value.map((item, index) => (
+                <div key={index} className="flex gap-2 my-2 items-center">
+                  <input
+                    type="text"
+                    value={item}
+                    className="w-full border p-2 rounded-md"
+                    onChange={(e) => {
+                      const newValue = [...state.value];
+                      newValue[index] = e.target.value;
+                      handleChange(newValue);
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newValue = state.value.filter((_, i) => i !== index);
+                      handleChange(newValue);
+                    }}
+                    className="text-red-500 ml-2"
+                  >
+                    <BiX />
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => handleChange([...state.value, ''])}
+                className="text-blue-500 mt-2"
+              >
+                Agregar <BiAddToQueue className='inline-block' />
+              </button>
+            </div>
+          ) : /* Array de fields (subcampos) */
+          type === 'array' && itemType === 'fields' ? (
+            <div>
+              {state.value.map((item, index) => (
+                <div key={index} className="my-3 border rounded-md p-2">
+                  <h4 className="font-semibold mb-2">Subgrupo {index + 1}</h4>
+                  {subFields.map((subField) => (
+                    <DynamicField
+                      key={subField.name}
+                      field={subField}
+                      form={form}
+                      parentIndex={index}
+                      parentState={state}
+                    />
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => state.removeValue(index)}
+                    className="text-red-500 mt-2 flex items-center"
+                  >
+                    <BiX /> Eliminar Subgrupo
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => handleChange([...state.value, {}])}
+                className="text-blue-500 mt-2"
+              >
+                Agregar Subgrupo <BiAddToQueue className='inline-block' />
+              </button>
+            </div>
+          ) : /* Campos básicos */
+          (
+            <input
+              id={name}
+              type={type || 'text'}
+              value={state.value}
+              className={`w-full border p-2 rounded-md ${state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-blue-500`}
+              onChange={(e) => handleChange(e.target.value)}
+            />
+          )}
+        </div>
       )}
     </form.Field>
-  )
-}
-
+  );
+};
 
 const ActionModal = ({ title, fields, functionApi, defaultValues}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -167,78 +266,7 @@ const ActionModal = ({ title, fields, functionApi, defaultValues}) => {
       
           {/* Renderizado de campos dinámicos */}
           {fields.map((fieldUnit) => (
-            fieldUnit.noEditable ? null : 
-            !fieldUnit.array ? (
-              <form.Field key={fieldUnit.name} name={fieldUnit.name} children={(field) => (
-                  <div className="my-3">
-                    <label htmlFor={field.name} className="block mb-2 text-gray-700">
-                      {fieldUnit.icon && <fieldUnit.icon className="inline-block mr-2" />}
-                      {fieldUnit.label}:
-                    </label>
-                    {fieldUnit.type === 'textarea' ? (
-                      <textarea
-                        id={field.name}
-                        name={field.name}
-                        value={field.state.value}
-                        className={`w-full border p-2 rounded-md ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-blue-500`}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                      />
-                    ) : (
-                      <input
-                        id={field.name}
-                        name={field.name}
-                        type={fieldUnit.type || "text"}
-                        value={field.state.value}
-                        className={`w-full border p-2 rounded-md ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-blue-500`}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                      />
-                    )}
-                  </div>
-              )}/>
-            ) : (
-              <form.Field key={fieldUnit.name} name={fieldUnit.name} mode="array" children={(field) => (
-                <div className="my-3">
-                  <label htmlFor={field.name} className="block mb-2 text-gray-700">
-                    {fieldUnit.icon && <fieldUnit.icon className="inline-block mr-2" />}
-                    {fieldUnit.label}:
-                  </label>
-                  {/* Mapeo de arrays */}
-                  {field.state.value.map((_, index) => (
-                    <div key={index} className="flex gap-2 my-2 items-center">
-                      {fieldUnit.type === "select" ? (
-                        <select
-                          value={field.state.value[index]}
-                          onChange={(e) => {
-                            const newValue = [...field.state.value];
-                            newValue[index] = e.target.value;
-                            field.setValue(newValue);}}
-                          className="w-full border p-2 rounded-md mb-1"
-                        >
-                          {fieldUnit.enum.map((val, newIndex) => (
-                            <option key={newIndex} value={val}>
-                              {val}
-                            </option>
-                          ))}
-                        </select>
-                      ): (
-                        <form.Field key={index} name={`${fieldUnit.name}.${index}`} children={(subField) => (
-                          <input
-                            type={fieldUnit.type}
-                            value={subField.state.value}
-                            onChange={(e) => subField.handleChange(e.target.value)}
-                            className="w-full border p-2 rounded-md mb-1"
-                          />
-                        )}/>
-                      )}
-                      <button type="button" onClick={() => field.removeValue(index)} className="text-red-500 ml-2"><BiX /></button>
-                    </div>
-                  ))}
-                  <button type="button" onClick={() => {
-                    field.pushValue(fieldUnit.enum ? fieldUnit.enum[0] : '')
-                    }} className="text-blue-500 mt-2">Agregar <BiAddToQueue className='inline-block'/></button>
-                </div>
-              )}/>
-            )
+            <DynamicField key={fieldUnit.name} field={fieldUnit} form={form} />
           ))}
           {/* Alertas Errores, Tanstack Form */}
           <form.Subscribe selector={(state) => state.errors}
