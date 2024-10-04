@@ -99,12 +99,14 @@ const fields = [
  * Subcomponente para renderizar los campos dinámicos del formulario.
 */
 const DynamicField = ({ field, form }) => {
-  const { name, label, icon: Icon, type, enum: enumOptions, itemType, fields: subFields } = field;
+  const { name, label, icon: Icon, type, enum: enumOptions, itemType, fields: subFields, noEditable } = field;
 
+  if (noEditable) { return }
   // Renderiza el campo según el tipo definido
   return (
     <form.Field key={name} name={name}>
-      {({ state, handleChange }) => (
+      {({ state, handleChange }) => {
+        return (
         <div className="my-3">
           <label htmlFor={name} className="block mb-2 text-gray-700">
             {Icon && <Icon className="inline-block mr-2" />}
@@ -177,7 +179,7 @@ const DynamicField = ({ field, form }) => {
                   <h4 className="font-semibold mb-2">Subgrupo {index + 1}</h4>
                   {subFields.map((subField) => (
                     <DynamicField
-                      key={subField.name}
+                      key={`${index}-${subField.name}`}
                       field={subField}
                       form={form}
                       parentIndex={index}
@@ -186,7 +188,10 @@ const DynamicField = ({ field, form }) => {
                   ))}
                   <button
                     type="button"
-                    onClick={() => state.removeValue(index)}
+                    onClick={() => {
+                      const newValue = state.value.filter((_, i) => i !== index);
+                      handleChange(newValue);
+                    }}
                     className="text-red-500 mt-2 flex items-center"
                   >
                     <BiX /> Eliminar Subgrupo
@@ -202,8 +207,7 @@ const DynamicField = ({ field, form }) => {
               </button>
             </div>
           ) : /* Campos básicos */
-          (
-            <input
+          ( <input
               id={name}
               type={type || 'text'}
               value={state.value}
@@ -212,7 +216,7 @@ const DynamicField = ({ field, form }) => {
             />
           )}
         </div>
-      )}
+      )}}
     </form.Field>
   );
 };
@@ -243,6 +247,8 @@ const ActionModal = ({ title, fields, functionApi, defaultValues}) => {
     defaultValues: defaultValues || configDefaultValues,
     validatorAdapter: zodValidator(dynamicSchema),
     onSubmit: ({value}) => {
+      console.log(value);
+      
       functionApi && functionApi(value); // Llama a la API
       handleCloseModal();
     }

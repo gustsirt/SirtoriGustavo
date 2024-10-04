@@ -66,7 +66,7 @@ export const FRAMEWORKS = {
   Python: ['Django', 'Flask', 'FastAPI', 'Pyramid'],
   Go: ['Gin', 'Echo'],
   Ruby: ['Rails', 'Sinatra'],
-  Java: ['Spring', 'JavaFX', 'Hibernate'],
+  Java: ['Java.Spring', 'JavaFX', 'Hibernate'],
   CSharp: ['ASP.NET', 'Unity'],
   PHP: ['Laravel', 'Symfony', 'CodeIgniter'],
   Rust: ['Rocket', 'Actix'],

@@ -11,7 +11,7 @@ const Card = ({ item, config }) => {
   const [showLinks, setShowLinks] = useState(false);
   const language = item.languages[0]
   const framework = item.frameworks[0]
-  console.log(item)
+  //console.log(item)
 
   // Función para copiar el código al portapapeles
   const handleCopy = () => {
