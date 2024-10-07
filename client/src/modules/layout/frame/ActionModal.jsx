@@ -98,17 +98,21 @@ const fields = [
 /**
  * Subcomponente para renderizar los campos dinámicos del formulario.
 */
-const DynamicField = ({ field, form }) => {
+const DynamicField = ({ field, form, parentName }) => {
   const { name, label, icon: Icon, type, enum: enumOptions, itemType, fields: subFields, noEditable } = field;
 
   if (noEditable) { return }
+
+  // Construir el nombre completo del campo con el prefijo del padre si existe
+  const fieldName = parentName ? `${parentName}.${name}` : name;
+
   // Renderiza el campo según el tipo definido
   return (
-    <form.Field key={name} name={name}>
+    <form.Field key={fieldName} name={fieldName}>
       {({ state, handleChange }) => {
         return (
         <div className="my-3">
-          <label htmlFor={name} className="block mb-2 text-gray-700">
+          <label htmlFor={fieldName} className="block mb-2 text-gray-700">
             {Icon && <Icon className="inline-block mr-2" />}
             {label}:
           </label>
@@ -116,7 +120,7 @@ const DynamicField = ({ field, form }) => {
           {/* Textarea */}
           {type === 'textarea' ? (
             <textarea
-              id={name}
+              id={fieldName}
               value={state.value}
               className={`w-full border p-2 rounded-md ${state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-blue-500`}
               onChange={(e) => handleChange(e.target.value)}
@@ -124,7 +128,7 @@ const DynamicField = ({ field, form }) => {
           ) : /* Select */
           type === 'select' ? (
             <select
-              id={name}
+              id={fieldName}
               value={Array.isArray(state.value) && state.value.length > 0 ? state.value[0] : ""}
               className="w-full border p-2 rounded-md"
               onChange={(e) => handleChange([e.target.value])}
@@ -182,8 +186,7 @@ const DynamicField = ({ field, form }) => {
                       key={`${index}-${subField.name}`}
                       field={subField}
                       form={form}
-                      parentIndex={index}
-                      parentState={state}
+                      parentName={`${fieldName}[${index}]`}
                     />
                   ))}
                   <button
@@ -208,7 +211,7 @@ const DynamicField = ({ field, form }) => {
             </div>
           ) : /* Campos básicos */
           ( <input
-              id={name}
+              id={fieldName}
               type={type || 'text'}
               value={state.value}
               className={`w-full border p-2 rounded-md ${state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-blue-500`}
