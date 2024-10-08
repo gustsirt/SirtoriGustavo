@@ -1,11 +1,6 @@
 import { Schema, model} from 'mongoose'
 import { LANGUAJES, PROFESSIONS, LINKSAPPS } from '../../utils/valueList.js'
 
-const LinkSchema = new Schema({
-  appName: { type: String, enum: LINKSAPPS, required: true },
-  url: { type: String, required: true  }
-});
-
 const ContributionSchema = new Schema({
   // basic properties
   title: { type: String, required: true },
@@ -13,7 +8,10 @@ const ContributionSchema = new Schema({
   code: { type: String },
   example: { type: String },
   contributedBy: { type: Schema.Types.ObjectId, ref: 'users', required: true },
-  links: [LinkSchema],
+  links: [{
+    appName: { type: String, enum: LINKSAPPS, required: true },
+    url: { type: String, required: true  }
+  }],
 
   // clasificators
   professions: [{ type: String, enum: PROFESSIONS, required: true }],

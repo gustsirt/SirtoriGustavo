@@ -46,6 +46,7 @@ const fields = [
     label: "Lenguajes",
     icon: BiCode,
     type: "select",  // Select estático
+    itemType: "text",
     enum: ["JavaScript", "Python", "TypeScript", "Go", "Ruby"],  // Opciones del select
     default: "JavaScript",
     validation: z.enum(["JavaScript", "Python", "TypeScript", "Go", "Ruby"])
@@ -129,9 +130,9 @@ const DynamicField = ({ field, form, parentName }) => {
           type === 'select' ? (
             <select
               id={fieldName}
-              value={Array.isArray(state.value) && state.value.length > 0 ? state.value[0] : ""}
+              value={state.value || ""}
               className="w-full border p-2 rounded-md"
-              onChange={(e) => handleChange([e.target.value])}
+              onChange={(e) => handleChange(e.target.value)}
             >
               {enumOptions.map((option, index) => (
                 <option key={index} value={option}>
@@ -155,6 +156,47 @@ const DynamicField = ({ field, form, parentName }) => {
                       handleChange(newValue);
                     }}
                   />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newValue = state.value.filter((_, i) => i !== index);
+                      handleChange(newValue);
+                    }}
+                    className="text-red-500 ml-2"
+                  >
+                    <BiX />
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => handleChange([...state.value, ''])}
+                className="text-blue-500 mt-2"
+              >
+                Agregar <BiAddToQueue className='inline-block' />
+              </button>
+            </div>
+          ) : /* Array de select */
+          type === 'array' && itemType === 'select' ? (
+            <div>
+              {state.value.map((item, index) => (
+                <div key={index} className="flex gap-2 my-2 items-center">
+                  <select
+                    value={item}
+                    className="w-full border p-2 rounded-md"
+                    onChange={(e) => {
+                      const newValue = [...state.value];
+                      newValue[index] = e.target.value;
+                      handleChange(newValue);
+                    }}
+                  >
+                    <option value="" disabled>Seleccionar</option>
+                    {enumOptions.map((option, idx) => (
+                      <option key={idx} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
                   <button
                     type="button"
                     onClick={() => {
