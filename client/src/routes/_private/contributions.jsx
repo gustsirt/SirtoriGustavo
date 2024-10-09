@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { getLanguajes, getProfessions, getFrameworks, getContributions, postContributions, updateContribution, deleteContribution } from '../../apis/contributions.services';
+import { getLanguajes, getProfessions, getFrameworks, getContributions, postContributions, updateContribution, deleteContribution, getAppLinks } from '../../apis/contributions.services';
 import { useEffect, useState } from 'react';
 import Frame from '../../modules/layout/frame/Frame';
 import SectionWFilters from '../../modules/layout/frame/Section.Filter';
@@ -25,6 +25,7 @@ function ContributionsPage () {
   const [languages, setLanguages] = useState();
   const [professions, setProfessions] = useState();
   const [frameworks, setFrameworks] = useState();
+  const [apps, setApps] = useState();
   const { currentUser } = useAppStore();
 
   const [isFilterLoading, setIsFilterLoading] = useState(false);
@@ -50,12 +51,14 @@ function ContributionsPage () {
     const fetchFilters = async () => {
       setIsFilterLoading(true);
       try {
-        const [languagesResp, professionsResp, frameworksResp] = await Promise.all([getLanguajes(), getProfessions(), getFrameworks()]);
+        const [languagesResp, professionsResp, frameworksResp, appsResp] = await Promise.all([getLanguajes(), getProfessions(), getFrameworks(), getAppLinks()]);
         setLanguages(languagesResp);
         setProfessions(professionsResp);
         setFrameworks(Object.values(frameworksResp).flat());
+        setApps(appsResp)
       } catch (err) {
-        setError('Hubo un error al cargar los filtros');
+        console.log(err);
+        setError('Hubo un error al cargar los select');
       } finally {
         setIsFilterLoading(false);
       }
@@ -141,8 +144,8 @@ function ContributionsPage () {
           label: "Plataforma",
           type: "select",
           itemType: "text",
-          enum: ["GitHub", "LinkedIn", "Twitter", "Facebook"],
-          validation: z.enum(["GitHub", "LinkedIn", "Twitter", "Facebook"])
+          enum: apps,
+          validation: z.enum(apps)
         },
         {
           name: "url",

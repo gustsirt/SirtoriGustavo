@@ -292,7 +292,7 @@ const ActionModal = ({ title, fields, functionApi, defaultValues}) => {
     defaultValues: defaultValues || configDefaultValues,
     validatorAdapter: zodValidator(dynamicSchema),
     onSubmit: ({value}) => {
-      console.log(value);
+      //console.log(value);
       
       functionApi && functionApi(value); // Llama a la API
       handleCloseModal();

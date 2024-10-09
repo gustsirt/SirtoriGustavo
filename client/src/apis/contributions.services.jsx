@@ -48,7 +48,7 @@ export const getFrameworks = async () => { // Reemplazar por Query
   }
 };
 
-export const getAppLinks= async () => { // Reemplazar por Query
+export const getAppLinks = async () => { // Reemplazar por Query
   try {
     const response = await axiosInstance.get(`/v1/values/applinks`);
     return response.data?.data || null;
@@ -94,6 +94,7 @@ export const updateContribution  = async (id, data) => {
     if (id.languages) item.languages = id.languages;
     if (id.libraries) item.libraries = id.libraries;
     if (id.professions) item.professions = id.professions;
+    if (id.links) item.links = id.links;
     if (id.title) item.title = id.title;
 
     id = id._id

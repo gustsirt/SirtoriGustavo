@@ -9,6 +9,7 @@ const ContributionSchema = new Schema({
   example: { type: String },
   contributedBy: { type: Schema.Types.ObjectId, ref: 'users', required: true },
   links: [{
+    _id: false, 
     appName: { type: String, enum: LINKSAPPS, required: true },
     url: { type: String, required: true  }
   }],
