@@ -39,6 +39,7 @@ const iconMap = {
   },
   tools: {
     Git: 'logos:git',
+    GitHub: 'logos:github-icon',
     Docker: 'logos:docker-icon',
     VSCode: 'logos:visual-studio-code',
     Postman: 'logos:postman',

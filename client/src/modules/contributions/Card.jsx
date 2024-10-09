@@ -11,7 +11,7 @@ const Card = ({ item, config }) => {
   const [showLinks, setShowLinks] = useState(false);
   const language = item.languages[0]
   const framework = item.frameworks[0]
-  // console.log(item)
+  console.log(item)
 
   // Función para copiar el código al portapapeles
   const handleCopy = () => {
@@ -79,7 +79,12 @@ const Card = ({ item, config }) => {
             {item.links && item.links.map((link, index) => (
               <li key={index}>
                 <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                  {link.name}
+                  <Icon
+                    name={link.appName}
+                    category={"tools"}
+                    display={true} 
+                    className="inline-block"
+                  />
                 </a>
               </li>
             ))}

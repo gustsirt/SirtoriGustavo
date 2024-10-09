@@ -11,9 +11,10 @@ import iconMap from './mapIcon.js'
  * @param {string} icon - Ícono directo del mapeo `iconMap`, opcional.
  * @param {string} customIcon - Ícono completamente personalizado que puede ser pasado sin depender de `iconMap`.
  * @param {string} className - Clase CSS para personalizar el estilo del ícono, como el tamaño o color.
+ * @param {boolean} display - Muestra o no adicionalmente el nombre.
  * @returns {JSX.Element|null} - El ícono renderizado o `null` si no se encuentra el ícono.
  */
-const Icon = ({ name, category, icon, customIcon, className = '' }) => {
+const Icon = ({ name, category, icon, customIcon, className = '', display = false }) => {
   // Prioridad: primero customIcon, luego icon, y finalmente name+category
   const iconName =
     customIcon || // Se usa `customIcon` si está presente
@@ -22,13 +23,21 @@ const Icon = ({ name, category, icon, customIcon, className = '' }) => {
 
   // Si no se encuentra el ícono, se lanza un error en la consola y no se renderiza nada.
   if (!iconName) {
-    // console.error(`Icon "${name}" not found in category "${category}"`);
-    // return null;
-    return (<p className={className}>{name}</p>)
+    console.warn(`Icon "${name}" not found in category "${category}"`);
+    return (
+      <span className={className}>
+        {display ? name : null}
+      </span>
+    );
   }
 
   // Se retorna el componente de Iconify con el ícono correcto y las clases CSS aplicadas.
-  return <IconifyIcon icon={iconName} className={className} />;
+  return (
+    <span className={className}>
+      <IconifyIcon icon={iconName} className={className} />
+      {display ? <span className="ml-2">{name}</span> : null}
+    </span>
+  );
 };
 
 export default Icon;
