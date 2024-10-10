@@ -96,7 +96,7 @@ function ContributionsPage () {
       { name: "example", 
         label: "Ejemplo", 
         icon: BiCodeBlock, 
-        type: "text" 
+        type: "textarea" 
       },
       { name: "contributedBy", 
         label: "Id Usuario", 

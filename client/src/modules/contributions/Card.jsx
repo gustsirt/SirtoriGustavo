@@ -11,7 +11,7 @@ const Card = ({ item, config }) => {
   const [showLinks, setShowLinks] = useState(false);
   const language = item.languages[0]
   const framework = item.frameworks[0]
-  console.log(item)
+  // console.log(item)
 
   // Función para copiar el código al portapapeles
   const handleCopy = () => {
@@ -47,7 +47,11 @@ const Card = ({ item, config }) => {
         </button>
 
         {/* Botón para ver/enlazar los links */}
-        <button onClick={() => setShowLinks(!showLinks)} className="px-3 py-2 bg-indigo-500 text-white rounded">
+        <button
+          onClick={() => setShowLinks(!showLinks)}
+          className={`px-3 py-2 text-white rounded ${item?.links.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-500 hover:bg-indigo-600'}`}
+          disabled={item?.links.length === 0}
+        >
           {showLinks ? 'Ocultar links' : 'Ver links'}
         </button>
 
