@@ -20,6 +20,37 @@ export const associateLoader = async (username) => {
   }
 };
 
+export const updateCurrentUser = async (data) => {
+  try {
+    delete data._id;
+    delete data.created;
+    delete data.updated;
+    delete data.connection;
+    delete data.__v;
+
+    const response = await axiosInstance.put(`/v1/users/current/update`, { updateUser: data});
+    return response.data?.data || null;
+  } catch (error) {
+    throw new Response('Error al cargar los datos', {
+      status: 500,
+      statusText: error.message,
+    });
+  }
+}
+
+export const userUpdatePhoto = async (photo) => {
+  const formData = new FormData();
+  formData.append('photo', photo);
+
+  try {
+    const response = await axios.put(`/v1/users/current/uploadphoto`, formData);
+    return response.data;
+  } catch (error) {
+    console.error('Error al actualizar la imagen:', error);
+    return null;
+  }
+};
+
 export const useCurrentUser = async () => {
   const { data, isPending, isError, error } = useFetch(['currentUser'],"/v1/users/current")
   const currentUser = data?.data || null;

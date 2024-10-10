@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BiSolidPlusSquare } from 'react-icons/bi';
 
 // Subcomponentes
 import ElementList from "./SectionWFilter/Elements";
@@ -55,7 +56,9 @@ const SectionWFilters = ({
           title={"Agregar nuevo elemento"}
           fields={config.fields}
           functionApi={config.actions.postApi}
-        />
+        >
+          Contribuir<BiSolidPlusSquare className="ml-2" />
+        </ActionModal>
       </div>
       <div className="flex">
         {/* Sección de filtros */}

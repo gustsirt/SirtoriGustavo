@@ -8,8 +8,8 @@ export const Route = createFileRoute('/_private')({
     const {isAuthenticated} = context;
     console.log("Auth status:", isAuthenticated);
 
+    // Redirige a la página de login si no está autenticado
     if (!isAuthenticated) { throw redirect({ to: '/login', });}
-    
   },
   component: privateLayout,
 })

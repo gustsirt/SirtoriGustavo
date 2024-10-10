@@ -4,7 +4,7 @@ import SectionWForm from '../../layout/frame/Section.Form';
 import { z } from 'zod';
 import ContactButton from './ContactButton';
 
-const UserData = ({user, itsMyProfile }) => {
+const UserData = ({user, itsMyProfile, action }) => {
   /*
   USER DATA
   given_name:  { type: String,   required: true, maxLength: 50 },
@@ -34,11 +34,16 @@ const UserData = ({user, itsMyProfile }) => {
     connection: user.connection,// Estado de conexión (no editable)
   });
 
+  function handleAction(data) {
+    setData(data)
+    action(data)
+  }
+
   // Definición de los campos con validación
   const fields = [
     { name: "email", label: "Email", icon:BiLogoGmail, type: "email", validation: z.string().email("Debe ser un email válido"), private: true },
     { name: "phone", label: "Teléfono", icon: BiPhone, type: "tel", validation: z.string().min(10, "El teléfono debe tener al menos 10 dígitos").optional() },
-    { name: "birthday", label: "Fecha de Nacimiento", icon: BiCalendar, type: "date", validation: z.date().optional},
+    { name: "birthday", label: "Fecha de Nacimiento", icon: BiCalendar, type: "date", validation: z.date().optional()},
     { name: "linkedinId", label: "LinkedIn ID", icon: BiLogoLinkedin,  type: "text", noEditable: true },
     { name: "created", label: "Fecha de Creación", icon: BiCalendar,  type: "date", noEditable: true },
     { name: "connection", label: "Estado de Conexión", icon: BiCalendar,  type: "date", noEditable: true }
@@ -48,7 +53,7 @@ const UserData = ({user, itsMyProfile }) => {
     <SectionWForm
       title="Datos Personales"
       data={data}
-      setData={setData}
+      setData={handleAction}
       isEditable={true}
       isPublic={true}
       fields={fields}
