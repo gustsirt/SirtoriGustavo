@@ -48,6 +48,18 @@ export const getFrameworks = async () => { // Reemplazar por Query
   }
 };
 
+export const getAppLinks = async () => { // Reemplazar por Query
+  try {
+    const response = await axiosInstance.get(`/v1/values/applinks`);
+    return response.data?.data || null;
+  } catch (error) {
+    throw new Response('Error al cargar los datos', {
+      status: 500,
+      statusText: error.message,
+    });
+  }
+};
+
 export const getContributions = async () => {
   try {
     const response = await axiosInstance.get(`/v1/contributions`);
@@ -82,6 +94,7 @@ export const updateContribution  = async (id, data) => {
     if (id.languages) item.languages = id.languages;
     if (id.libraries) item.libraries = id.libraries;
     if (id.professions) item.professions = id.professions;
+    if (id.links) item.links = id.links;
     if (id.title) item.title = id.title;
 
     id = id._id
