@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { BiCopy } from 'react-icons/bi';
+import { BiCopy, BiSolidPlusSquare } from 'react-icons/bi';
 import { alertMessage } from '../alerts/alerts';
 import ActionModal from '../layout/frame/ActionModal'
 import Icon from '../icons/iconifyIcon';
